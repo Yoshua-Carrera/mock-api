@@ -1,5 +1,7 @@
 # mock-api
+
 A mock API that retrieves JSON style reponses from based on the request
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
