@@ -1,15 +1,16 @@
 import { Field, ObjectType } from "type-graphql";
 import { MockErrorDetails } from "./error.types";
+import { GraphQLJSONObject } from "graphql-type-json"
 
 @ObjectType()
 export class Mock {
-  @Field(() => String, { nullable: true })
-  data?: string;
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  data?: unknown;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   mockUsername: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   mockMatch: boolean;
 
   @Field(() => [MockErrorDetails], { nullable: true })

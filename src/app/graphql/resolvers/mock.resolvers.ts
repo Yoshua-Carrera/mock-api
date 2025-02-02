@@ -28,31 +28,47 @@ export class MockResolver {
       );
       return [
         {
-          data: JSON.stringify(file.data),
+          data: file.data,
           mockUsername: mockUsername,
           mockMatch: true,
           errors: null,
         },
       ];
     } catch {
-      const file = await filereader(
-        params,
-        defaultMockUsername,
-        RequestOperation.POST,
-        "v2"
-      );
-      return [
-        {
-          data: JSON.stringify(file.data),
-          mockUsername: "hi",
-          mockMatch: false,
-          errors: [{
-            message: "Mock username not found",
-            timeStamp: Date().valueOf(),
-            endpoint: ctx.req.url,
-          }],
-        },
-      ];
+      try {
+        const file = await filereader(
+          params,
+          defaultMockUsername,
+          RequestOperation.POST,
+          "v2"
+        );
+        return [
+          {
+            data: file.data,
+            mockUsername: defaultMockUsername,
+            mockMatch: false,
+            errors: [{
+              message: "Mock username not found",
+              timeStamp: Date().valueOf(),
+              endpoint: ctx.req.url,
+            }],
+          },
+        ];
+      } catch (error) {
+        return [
+          {
+            mockMatch: false,
+            mockUsername: mockUsername ?? defaultMockUsername,
+            errors: [{
+              message: "Mock not found",
+              timeStamp: Date().valueOf(),
+              endpoint: ctx.req.url,
+            },
+            { error: error }
+            ]
+          } as Mock
+        ]
+      }
     }
   }
 }
