@@ -1,0 +1,17 @@
+{
+  "data": {
+    "test": "fdsfsdfds",
+    "appointments": [
+      {
+        "day": "today",
+        "wao": false,
+        "thisNull": null
+      },
+      {
+        "day": "yesterday",
+        "wao": false,
+        "thisNull": null
+      }
+    ]
+  }
+}
