@@ -12,6 +12,7 @@
     "@apollo/server": "^4.11.3",
     "@as-integrations/next": "^3.2.0",
     "class-validator": "^0.14.1",
+    "eslint-config-prettier": "^10.0.1",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
