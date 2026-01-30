@@ -1,40 +1,188 @@
-# mock-api
+# Mock API
 
-A mock API that retrieves JSON style reponses from based on the request
+This is a mock API created with Next.js. It provides both REST and GraphQL endpoints to serve mock data.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Features
+
+-   **REST API:** A RESTful API to get and post mock data.
+-   **GraphQL API:** A GraphQL API to query mock data.
+-   **Dynamic Mocking:** The API can return different mock data based on the `from` header in the request. This allows you to simulate different scenarios, such as a happy path or an error case.
+-   **Orchestration:** The API supports orchestration, allowing you to chain multiple mock requests together.
 
 ## Getting Started
 
-First, run the development server:
+To get started, clone the repository and install the dependencies:
+
+```bash
+git clone <repository-url>
+cd mock-api
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Reference
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### REST API
 
-## Learn More
+The REST API is available at `/api/v1`. It supports the following HTTP methods:
 
-To learn more about Next.js, take a look at the following resources:
+-   `GET`: Retrieves mock data.
+-   `POST`: Posts mock data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To specify which mock data to return, include a `from` header in your request. The value of the `from` header should be the name of the mock file you want to use. For example, to use the `happy-path.json` mock, set the `from` header to `happy-path`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you don't provide a `from` header, the API will use the `_default.json` mock.
 
-## Deploy on Vercel
+**Example:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Get the default mock data
+curl http://localhost:3000/api/v1/get-data
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Get the happy path mock data
+curl -H "from: happy-path" http://localhost:3000/api/v1/get-data
+```
+
+### GraphQL API
+
+The GraphQL API is available at `/api/v2/graphql`. It supports the following queries:
+
+-   `getMock`: Retrieves a list of mocks.
+-   `getTest`: Retrieves a list of test mocks.
+
+**Example:**
+
+```graphql
+query {
+  getMock {
+    data
+    errors {
+      endpoint
+      message
+      timeStamp
+    }
+    mockMatch
+    mockUsername
+  }
+}
+```
+
+## How TypeGraphQL Works
+
+This project uses [TypeGraphQL](https://typegraphql.com/) to build the GraphQL schema and resolvers. TypeGraphQL is a library that allows you to build GraphQL APIs with TypeScript and decorators.
+
+### Decorators
+
+TypeGraphQL uses decorators to define the GraphQL schema. The two most common decorators are:
+
+-   `@ObjectType`: Defines a new object type in the GraphQL schema.
+-   `@Field`: Defines a field in an object type.
+
+For example, the `Mock` type in this project is defined as follows:
+
+```typescript
+@ObjectType()
+export class Mock {
+  @Field(() => JSONObject, { nullable: true })
+  data?: Record<string, unknown>
+
+  @Field(() => [MockErrorDetails], { nullable: true })
+  errors?: MockErrorDetails[]
+
+  @Field({ nullable: true })
+  mockUsername?: string
+
+  @Field({ nullable: true })
+  mockMatch?: boolean
+}
+```
+
+### Resolvers
+
+Resolvers are functions that return data for a specific field in the GraphQL schema. In TypeGraphQL, resolvers are created as methods in a class that is decorated with `@Resolver`.
+
+For example, the `getMock` resolver in this project is defined as follows:
+
+```typescript
+@Resolver(Mock)
+export class MockResolver {
+  @Query(() => [Mock])
+  async getMock(): Promise<Mock[]> {
+    // ...
+  }
+}
+```
+
+The `@Query` decorator indicates that this method is a query resolver. The `getMock` method returns an array of `Mock` objects.
+
+## Project Structure
+
+```
+.
+├── next.config.ts
+├── package.json
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── src
+│   └── app
+│       ├── api
+│       ├── favicon.ico
+│       ├── fonts
+│       ├── globals.css
+│       ├── graphql
+│       ├── layout.tsx
+│       ├── mock
+│       ├── models
+│       ├── page.module.css
+│       ├── page.tsx
+│       ├── store
+│       └── utils
+└── tsconfig.json
+```
+
+## How `src/app/graphql/schema/schema.graphql` is Generated
+
+The `src/app/graphql/schema/schema.graphql` file is not manually written; instead, it is automatically generated by the `type-graphql` library. This process happens during the application's startup or build phase, specifically when the `buildSchema` function is called.
+
+In `src/app/api/v2/graphql/route.ts`, you can see the configuration for this generation:
+
+```typescript
+const schema = await buildSchema({
+  resolvers: [MockResolver, TestingResolver],
+  emitSchemaFile: {
+    path: 'src/app/graphql/schema/schema.graphql',
+  },
+  skipCheck: true,
+})
+```
+
+Here's what happens:
+
+1.  **`buildSchema` Function:** This core `type-graphql` function takes an options object.
+2.  **`resolvers` Array:** It's provided with an array of resolver classes (e.g., `MockResolver`, `TestingResolver`). TypeGraphQL scans these classes and their methods/properties for specific decorators.
+3.  **TypeGraphQL Decorators:** Throughout the TypeScript source files (especially in `src/app/graphql/resolvers` and `src/app/graphql/types`), decorators like `@ObjectType()`, `@Field()`, `@Query()`, `@Mutation()`, and `@Args()` are used. These decorators annotate plain TypeScript classes and methods, providing metadata that describes how they should map to the GraphQL schema.
+    *   For example, a class decorated with `@ObjectType()` becomes a GraphQL `type`.
+    *   Properties within that class decorated with `@Field()` become fields of that GraphQL type.
+    *   Methods in a resolver class decorated with `@Query()` or `@Mutation()` become the root query or mutation fields of the GraphQL API.
+4.  **`emitSchemaFile` Option:** The `emitSchemaFile` option with a `path` property instructs TypeGraphQL to take all the schema information it has gathered from the decorators and write it out as a GraphQL Schema Definition Language (SDL) file to the specified path. This ensures that the human-readable `.graphql` schema file is always an up-to-date representation of your TypeScript-defined GraphQL API.
+
+This automated generation ensures that your GraphQL schema is consistent with your TypeScript code, reducing the chance of discrepancies and simplifying schema management.
+
+## Technologies Used
+
+-   [Next.js](https://nextjs.org/)
+-   [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
+-   [TypeGraphQL](https://typegraphql.com/)
+-   [TypeScript](https://www.typescriptlang.org/)
