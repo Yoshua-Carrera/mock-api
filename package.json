@@ -16,7 +16,7 @@
     "graphql": "^15.3.0",
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
-    "next": "15.0.3",
+    "next": "15.5.15",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "reflect-metadata": "^0.1.13",
