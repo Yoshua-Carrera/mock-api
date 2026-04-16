@@ -6,12 +6,6 @@ import { buildSchema } from 'type-graphql'
 import { MockResolver } from '@/app/graphql/resolvers/mock.resolvers'
 import { TestingResolver } from '@/app/graphql/resolvers/test.resolvers'
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
 const schema = await buildSchema({
   resolvers: [MockResolver, TestingResolver],
   emitSchemaFile: {
