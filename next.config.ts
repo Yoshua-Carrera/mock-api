@@ -1,13 +1,7 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  webpack: (config) => {
-    if (!config.experiments) {
-      config.experiments = {}
-    }
-    config.experiments.topLevelAwait = true
-    return config
-  }
+  skipProxyUrlNormalize: true,
 }
 
-export default nextConfig;
+export default nextConfig
