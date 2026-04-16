@@ -14,7 +14,15 @@ const schema = await buildSchema({
   skipCheck: true,
 })
 
-const gqlServer = new ApolloServer({ schema, csrfPrevention: false, introspection: true })
+const gqlServer = new ApolloServer({
+  schema,
+  csrfPrevention: false,
+  introspection: true,
+  formatError: (formattedError, error) => {
+    console.error('GRAPHQL ERROR:', error)
+    return formattedError
+  },
+})
 
 const handler = startServerAndCreateNextHandler<NextRequest, BaseContext>(gqlServer, {
   context: async (req, context) => {
