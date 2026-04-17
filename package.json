@@ -4,7 +4,8 @@
   "description": "A mock api which has both rest and gql endpoints and is fully driven by static json files",
   "main": "index.ts",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "mock": "nodemon --exec ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
