@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(
   cors({
     origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   }),
 )
 
@@ -139,6 +139,7 @@ app.all(/(.*)/, async (req, res) => {
     console.warn(
       `[warning - ${req.method}] Mock not found for mock username "${mockFileName ?? 'default'}, please add the mock at ./mocks/${req.method}/${req.path}/${mockFileName ?? 'default'}.json`,
     )
+    res.sendStatus(result.errorCode)
   } else {
     handleSuccessResponse({
       req,
