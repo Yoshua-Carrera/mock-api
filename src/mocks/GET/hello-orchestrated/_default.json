@@ -1,14 +1,14 @@
 {
   "orchestratedMock": [
     {
-      "mockDelay": 2000,
+      "mockDelay": 1000,
       "data": {
         "message": "Hello"
       },
       "error": null
     },
     {
-      "mockDelay": 2000,
+      "mockDelay": 1000,
       "data": {
         "message": "world"
       },

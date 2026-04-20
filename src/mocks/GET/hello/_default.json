@@ -1,5 +1,5 @@
 {
-  "mockDelay": 2000,
+  "mockDelay": 1000,
   "data": {
     "message": "Hello, world"
   },
