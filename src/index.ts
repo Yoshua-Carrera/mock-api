@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express, { Request, response, Response } from 'express'
 import cors from 'cors'
 
 interface GenericMock {
@@ -115,13 +115,18 @@ const handleSuccessResponse = (p: {
         )
       : responseData
 
+  const statusCode: number = typeof responseData === 'number' ? responseData : 200
   setTimeout(
-    () => p.res.send(body),
+    () => p.res.status(statusCode).send(body),
     typeof responseData === 'object' && responseData !== null && responseData.mockDelay
       ? (responseData.mockDelay ?? 0)
       : 0,
   )
 }
+
+app.get('/graph', async (req, res) => {
+  res.send('graph')
+})
 
 app.all(/(.*)/, async (req, res) => {
   const mockFileName = req.headers['mockFile'] as string
