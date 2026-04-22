@@ -1,34 +1,11 @@
-import { BaseContext } from '@apollo/server'
 import { Request } from 'express'
-
-export const defaultMockUsername: string = '_default'
-export const orchestratedKey: string = 'orchestrated'
-
-export enum RequestOperation {
-  GET = 'get',
-  POST = 'post',
-}
 
 export interface MockContext {
   req: Request
-  context: BaseContext & V2ApiContext
+  context: GraphqlContext
 }
 
-export interface JsonResponse {
-  data: unknown
-  default: unknown
-  orchestrated?: JsonResponse[]
-}
-
-export type ApiVersion = 'v1' | 'v2'
-
-export interface V1ApiContext {
-  params: Promise<{
-    v1: string[]
-  }>
-}
-
-export interface V2ApiContext {
+export interface GraphqlContext {
   params: Promise<{
     graphql: string[]
   }>

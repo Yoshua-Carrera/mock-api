@@ -1,15 +1,38 @@
 import { Ctx, Info, Query, Resolver } from 'type-graphql'
-import { Mock } from '../types/mock.types'
+import { GenericMockType } from '../types/mock.types'
 import type { GraphQlInfo, MockContext } from '../models/handler.models'
+import { GenericMock } from '../../models/response.models'
 
-@Resolver(Mock)
+@Resolver(GenericMockType)
 export class MockResolver {
-  @Query(() => [Mock])
-  async getMock(@Ctx() ctx: MockContext, @Info() info: GraphQlInfo): Promise<Mock[]> {
-    return mockFetch<Mock[]>(info, ctx)
+  @Query(() => [GenericMockType])
+  async getMock(@Ctx() ctx: MockContext, @Info() info: GraphQlInfo): Promise<GenericMockType[]> {
+    return mockFetch<GenericMockType[]>(info, ctx)
   }
 }
-function mockFetch<_>(info: GraphQlInfo, ctx: MockContext): Mock[] | PromiseLike<Mock[]> {
-  console.log(info, ctx)
-  throw new Error('Function not implemented.')
+async function mockFetch<_>(info: GraphQlInfo, ctx: MockContext): Promise<GenericMockType[]> {
+  const operationType = info.operation.operation
+  const operationName = info.operation.name.value
+  const mockFileName = ctx.req?.headers['mockFile'] ?? '_default'
+  console.log(JSON.stringify(ctx))
+  return graphFileReader(
+    `../../mocks/graphql/${operationType}/${operationName}/${mockFileName}.json`,
+  )
+}
+
+const graphFileReader = async (path: string): Promise<GenericMockType[]> => {
+  console.log({
+    path,
+  })
+  const staticResponse: GenericMock = await import(path)
+  console.log({
+    staticResponse,
+  })
+
+  return [
+    {
+      data: staticResponse.data,
+      error: null,
+    },
+  ]
 }
