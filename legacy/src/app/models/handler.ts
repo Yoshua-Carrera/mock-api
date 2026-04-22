@@ -1,4 +1,3 @@
-import { BaseContext } from '@apollo/server'
 import { NextRequest } from 'next/server'
 
 export const defaultMockUsername: string = '_default'
@@ -11,7 +10,7 @@ export enum RequestOperation {
 
 export interface MockContext {
   req: NextRequest
-  context: BaseContext & V2ApiContext
+  context: V2ApiContext
 }
 
 export interface JsonResponse {
