@@ -16,6 +16,10 @@ export async function createGqlServer(): Promise<ApolloServer<ExpressContext>> {
     schema,
     csrfPrevention: false,
     introspection: true,
+    context: ({ req, res }: ExpressContext) => ({
+      req,
+      res,
+    }),
   })
 
   await gqlServer.start()
