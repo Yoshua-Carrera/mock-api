@@ -8,4 +8,7 @@ export class GenericMockType {
 
   @Field(() => GraphQLJSONObject, { nullable: true })
   error?: unknown
+
+  @Field(() => Number, { nullable: true })
+  errorCode?: number
 }

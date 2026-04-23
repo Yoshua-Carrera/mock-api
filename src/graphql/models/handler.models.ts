@@ -1,8 +1,8 @@
-import { Request } from 'express'
+import e from 'express'
 
 export interface MockContext {
-  req: Request
-  context: GraphqlContext
+  req: e.Request
+  res: e.Response
 }
 
 export interface GraphqlContext {
