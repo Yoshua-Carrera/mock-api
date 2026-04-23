@@ -6,6 +6,7 @@
 type GenericMockType {
   data: JSONObject
   error: JSONObject
+  errorCode: Float
 }
 
 """
