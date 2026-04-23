@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import { createGqlServer } from './graphql'
-import { handleSuccessResponse, processRequest } from './rest/utils'
 import { GenericMock } from './models/response.models'
+import { handleSuccessResponse, processRequest } from './utils/rest/rest.handler'
 
 export async function bootstrap() {
   const PORT = process.env.PORT || 8080
@@ -23,7 +23,7 @@ export async function bootstrap() {
   app.all(/(.*)/, async (req, res) => {
     const mockFileName = req.headers['mockFile'] as string
     const result = await processRequest({
-      route: `../mocks/${req.method}${req.path}`,
+      route: `../../mocks/${req.method}${req.path}`,
       mockFileName,
       method: req.method,
     })

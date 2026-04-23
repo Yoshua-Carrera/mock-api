@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { GenericMock } from '../models/response.models'
-import { handleOrchestration } from '../state/mock.state'
+import { GenericMock } from '../../models/response.models'
+import { handleOrchestration } from '../../state/mock.state'
 
 export const processRequest = async (params: {
   route: string
