@@ -2,7 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import { createGqlServer } from './graphql'
 import { GenericMock } from './models/response.models'
-import { handleSuccessResponse, processRequest } from './utils/rest/rest.handler'
+import { handleSuccessResponse } from './utils/rest/rest.handler'
+import { processRequest } from './utils/shared/shared.handler'
 
 export async function bootstrap() {
   const PORT = process.env.PORT || 8080

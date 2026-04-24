@@ -2,7 +2,8 @@ import { Ctx, Info, Query, Resolver } from 'type-graphql'
 import { GenericMockType } from '../types/mock.types'
 import type { GraphQlInfo, MockContext } from '../models/handler.models'
 import { GenericMock } from '../../models/response.models'
-import { handleSuccessResponse, processRequest } from '../../utils/graph/graph.handler'
+import { handleSuccessResponse } from '../../utils/graph/graph.handler'
+import { processRequest } from '../../utils/shared/shared.handler'
 
 @Resolver(GenericMockType)
 export class MockResolver {
