@@ -1,6 +1,5 @@
-> [!CAUTION]
-
-> This legacy mock API is now deprecated in favor of a lighter weight express application
+> [!CAUTION] If you have not yet successfully run a NixOS rebuild, running these scripts alone will
+> not be sufficient, and you will need to run the commands below
 
 # Mock API
 
