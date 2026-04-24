@@ -1,5 +1,5 @@
 > [!CAUTION]
-> This legacy mock API is now deprecated in favor of a lighter weight express application
+> This legacy mock API is now deprecated in favor of a lighter weight express application [README](/README.md)
 
 # Mock API
 
