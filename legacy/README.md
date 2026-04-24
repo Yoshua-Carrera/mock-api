@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This legacy mock API is now deprecated in favor of a lighter weight express application
+
 # Mock API
 
 This is a mock API created with Next.js. It provides both REST and GraphQL endpoints to serve mock
@@ -208,4 +211,3 @@ reducing the chance of discrepancies and simplifying schema management.
 - [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
 - [TypeGraphQL](https://typegraphql.com/)
 - [TypeScript](https://www.typescriptlang.org/)
-
