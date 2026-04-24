@@ -1,6 +1,3 @@
-> [!CAUTION] If you have not yet successfully run a NixOS rebuild, running these scripts alone will
-> not be sufficient, and you will need to run the commands below
-
 # Mock API
 
 This is a mock API created with Next.js. It provides both REST and GraphQL endpoints to serve mock
