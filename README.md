@@ -12,18 +12,26 @@ A lightweight, high-performance mock server built with **Express 5** and **TypeS
 
 ## 🏗️ Architecture
 
-The server operates on a directory-to-URL mapping principle.
+The server operates on a directory-to-URL mapping principle for both REST and GraphQL.
 
-### Folder-Based Routing
-The server dynamically maps incoming requests to local files based on the HTTP method and URL path:
+### 1. REST Folder-Based Routing
+The server dynamically maps incoming REST requests to local files based on the HTTP method and URL path:
 `./src/mocks/{METHOD}/{PATH}/`
 
 **Examples:**
 - `GET /hello` -> `./src/mocks/GET/hello/`
 - `POST /auth/login` -> `./src/mocks/POST/auth/login/`
 
+### 2. GraphQL Folder-Based Routing
+The server exposes a GraphQL endpoint at `/graphql`. Operations are mapped to files based on the operation type (query/mutation) and the operation name:
+`./src/mocks/graphql/{operationType}/{operationName}/`
+
+**Examples:**
+- `query { hello { ... } }` -> `./src/mocks/graphql/query/hello/`
+- `mutation { login { ... } }` -> `./src/mocks/graphql/mutation/login/`
+
 ### 🔑 The `mockFile` Header (Mock Selection)
-This is the core mechanism for selecting specific mock scenarios within a folder.
+This is the core mechanism for selecting specific mock scenarios within a folder for both REST and GraphQL.
 
 1. **Default Behavior**: If no header is provided, the server always looks for `_default.json` in the corresponding directory.
 2. **Explicit Selection**: To use a specific mock file, pass the `mockFile` header with the name of the JSON file (without the `.json` extension).
@@ -77,15 +85,22 @@ pnpm install
 pnpm run mock
 ```
 The server starts on `http://localhost:8080` by default (configurable via `PORT` environment variable).
+- REST Base: `http://localhost:8080/`
+- GraphQL: `http://localhost:8080/graphql`
 
 ---
 
 ## 📝 How to Add Mocks
 
+### Adding a REST Mock
 1. **Identify the endpoint**: e.g., `GET /v1/users`.
 2. **Create the directory**: `mkdir -p src/mocks/GET/v1/users`.
 3. **Add a default response**: Create `_default.json` in that folder.
-4. **Add specific scenarios**: Create `unauthorized.json` or `empty-list.json`.
+
+### Adding a GraphQL Mock
+1. **Identify the operation**: e.g., `query getUser`.
+2. **Create the directory**: `mkdir -p src/mocks/graphql/query/getUser`.
+3. **Add a default response**: Create `_default.json` in that folder.
 
 **Note:** The server automatically filters out the `mockDelay` and `orchestratedMock` keys from the final JSON response sent to your application.
 
@@ -95,7 +110,7 @@ The server starts on `http://localhost:8080` by default (configurable via `PORT`
 
 Point your application's API base URL to `http://localhost:8080`.
 
-**Example using `fetch`:**
+**Example using `fetch` for REST:**
 ```javascript
 const response = await fetch('http://localhost:8080/v1/users', {
   headers: {
@@ -106,7 +121,17 @@ const response = await fetch('http://localhost:8080/v1/users', {
 const data = await response.json();
 ```
 
+**Example using Apollo Client for GraphQL:**
+```javascript
+const client = new ApolloClient({
+  uri: 'http://localhost:8080/graphql',
+  headers: {
+    'mockFile': 'happy-path' // Requests happy-path.json
+  }
+});
+```
+
 ---
 
-## 📚 Legacy & GraphQL Support
-The `/legacy` directory contains an older Next.js implementation. This version supports **GraphQL** via Apollo Server and TypeGraphQL. If your project requires GraphQL mocking, refer to `legacy/README.md` for setup instructions.
+## 📚 Legacy Support
+The `/legacy` directory contains an older Next.js implementation. If your project specifically requires that version, refer to `legacy/README.md` for setup instructions.
