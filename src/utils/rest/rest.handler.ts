@@ -35,7 +35,7 @@ export const handleSuccessResponse = (p: {
 
   const statusCode: number = typeof responseData === 'number' ? responseData : 200
   setTimeout(
-    () => p.res.status(statusCode).send(body),
+    () => p.res.status(responseData.mockStatusCode ?? statusCode).send(body),
     typeof responseData === 'object' && responseData !== null && responseData.mockDelay
       ? (responseData.mockDelay ?? 0)
       : 0,
