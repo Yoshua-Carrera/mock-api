@@ -15,39 +15,46 @@ A lightweight, high-performance mock server built with **Express 5** and **TypeS
 The server operates on a directory-to-URL mapping principle for both REST and GraphQL.
 
 ### 1. REST Folder-Based Routing
+
 The server dynamically maps incoming REST requests to local files based on the HTTP method and URL path:
 `./src/mocks/{METHOD}/{PATH}/`
 
 **Examples:**
+
 - `GET /hello` -> `./src/mocks/GET/hello/`
 - `POST /auth/login` -> `./src/mocks/POST/auth/login/`
 
 ### 2. GraphQL Folder-Based Routing
+
 The server exposes a GraphQL endpoint at `/graphql`. Operations are mapped to files based on the operation type (query/mutation) and the operation name:
 `./src/mocks/graphql/{operationType}/{operationName}/`
 
 **Examples:**
+
 - `query { hello { ... } }` -> `./src/mocks/graphql/query/hello/`
 - `mutation { login { ... } }` -> `./src/mocks/graphql/mutation/login/`
 
 ### 🔑 The `mockFile` Header (Mock Selection)
+
 This is the core mechanism for selecting specific mock scenarios within a folder for both REST and GraphQL.
 
 1. **Default Behavior**: If no header is provided, the server always looks for `_default.json` in the corresponding directory.
 2. **Explicit Selection**: To use a specific mock file, pass the `mockFile` header with the name of the JSON file (without the `.json` extension).
 
-| Header | Value | File Accessed |
-| --- | --- | --- |
-| *(Missing)* | N/A | `./src/mocks/.../_default.json` |
-| `mockFile` | `happy-path` | `./src/mocks/.../happy-path.json` |
-| `mockFile` | `error-500` | `./src/mocks/.../error-500.json` |
+| Header      | Value        | File Accessed                     |
+| ----------- | ------------ | --------------------------------- |
+| _(Missing)_ | N/A          | `./src/mocks/.../_default.json`   |
+| `mockFile`  | `happy-path` | `./src/mocks/.../happy-path.json` |
+| `mockFile`  | `error-500`  | `./src/mocks/.../error-500.json`  |
 
 ---
 
 ## 🛠️ Features
 
 ### 1. Latency Simulation
+
 Add a `mockDelay` field (in milliseconds) to any mock JSON to simulate network latency or long-running operations. The server will wait for this duration before sending the response.
+
 ```json
 {
   "mockDelay": 1500,
@@ -56,7 +63,9 @@ Add a `mockDelay` field (in milliseconds) to any mock JSON to simulate network l
 ```
 
 ### 2. Stateful Orchestration
+
 Test sequences of events (like polling) using `orchestratedMock`. This field takes an array of response objects. The server tracks the state per endpoint and cycles through the array on subsequent requests.
+
 ```json
 {
   "orchestratedMock": [
@@ -72,19 +81,24 @@ Test sequences of events (like polling) using `orchestratedMock`. This field tak
 ## 🏃 Getting Started
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (v18+)
 - [pnpm](https://pnpm.io/) (Recommended)
 
 ### Installation
+
 ```bash
 pnpm install
 ```
 
 ### Running the Server
+
 ```bash
 pnpm run mock
 ```
+
 The server starts on `http://localhost:8080` by default (configurable via `PORT` environment variable).
+
 - REST Base: `http://localhost:8080/`
 - GraphQL: `http://localhost:8080/graphql`
 
@@ -93,11 +107,13 @@ The server starts on `http://localhost:8080` by default (configurable via `PORT`
 ## 📝 How to Add Mocks
 
 ### Adding a REST Mock
+
 1. **Identify the endpoint**: e.g., `GET /v1/users`.
 2. **Create the directory**: `mkdir -p src/mocks/GET/v1/users`.
 3. **Add a default response**: Create `_default.json` in that folder.
 
 ### Adding a GraphQL Mock
+
 1. **Identify the operation**: e.g., `query getUser`.
 2. **Create the directory**: `mkdir -p src/mocks/graphql/query/getUser`.
 3. **Add a default response**: Create `_default.json` in that folder.
@@ -111,27 +127,30 @@ The server starts on `http://localhost:8080` by default (configurable via `PORT`
 Point your application's API base URL to `http://localhost:8080`.
 
 **Example using `fetch` for REST:**
+
 ```javascript
 const response = await fetch('http://localhost:8080/v1/users', {
   headers: {
-    'mockFile': 'unauthorized' // Requests unauthorized.json
-  }
-});
+    mockFile: 'unauthorized', // Requests unauthorized.json
+  },
+})
 
-const data = await response.json();
+const data = await response.json()
 ```
 
 **Example using Apollo Client for GraphQL:**
+
 ```javascript
 const client = new ApolloClient({
   uri: 'http://localhost:8080/graphql',
   headers: {
-    'mockFile': 'happy-path' // Requests happy-path.json
-  }
-});
+    mockFile: 'happy-path', // Requests happy-path.json
+  },
+})
 ```
 
 ---
 
 ## 📚 Legacy Support
+
 The `/legacy` directory contains an older Next.js implementation. If your project specifically requires that version, refer to `legacy/README.md` for setup instructions.
