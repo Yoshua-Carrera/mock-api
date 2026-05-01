@@ -1,4 +1,4 @@
-name: Flake check
+name: Code quality check
 on:
   pull_request:
   push:
