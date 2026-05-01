@@ -1,11 +1,28 @@
-// eslint.config.js
 import { defineConfig } from 'eslint/config'
+import tseslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 
 export default defineConfig([
   {
-    ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/.next/**'],
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsParser,
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+    },
   },
   {
-    rules: {},
+    ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/.next/**'],
   },
 ])

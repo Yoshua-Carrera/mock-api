@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Arg, Ctx, Info, Query, Resolver } from 'type-graphql'
 import type { GraphQlInfo, MockContext } from '@/app/models/handler'
 import { Mock } from '../types/mock.types'
