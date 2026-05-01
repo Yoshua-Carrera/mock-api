@@ -1,15 +1,15 @@
-import { Field, InterfaceType, ObjectType } from "type-graphql";
+import { Field, InterfaceType, ObjectType } from 'type-graphql'
 
 @ObjectType()
 export class MockErrorDetails {
   @Field(() => String, { nullable: true })
-  message?: string;
+  message?: string
 
   @Field(() => String, { nullable: true })
-  timeStamp?: string;
+  timeStamp?: string
 
   @Field(() => String, { nullable: true })
-  endpoint?: string;
+  endpoint?: string
 }
 
 @InterfaceType()
