@@ -1,4 +1,4 @@
-name: Code quality check
+name: Code quality check (Express-js)
 on:
   pull_request:
   push:
@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./express-js
     strategy:
       matrix:
         node-version: [20]
