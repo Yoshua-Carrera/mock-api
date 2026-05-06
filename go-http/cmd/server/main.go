@@ -41,7 +41,7 @@ func main() {
 		fmt.Fprintln(w, "Hello, world")
 	})
 
-	http.Handle("/gql-sandbox", playground.Handler("GraphQL playground", "/graphql"))
+	http.Handle("/gql", playground.Handler("GraphQL sandbox", "/graphql"))
 	http.Handle("/graphql", srv)
 
 	log.Printf("[info] - Server starting on port %s", port)
