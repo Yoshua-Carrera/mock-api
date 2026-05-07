@@ -1,5 +1,5 @@
 > [!CAUTION]
-> This legacy mock API is now deprecated in favor of a lighter weight express application [README](/README.md)
+> This legacy mock API is now deprecated in favor of a lighter weight express application in the [express-js](../express-js) directory.
 
 # Mock API
 
@@ -21,14 +21,14 @@ To get started, clone the repository and install the dependencies:
 
 ```bash
 git clone <repository-url>
-cd mock-api
-npm install
+cd mock-api/next-js
+pnpm install
 ```
 
 Then, run the development server:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The application will be available at `http://localhost:3000`.

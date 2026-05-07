@@ -148,9 +148,3 @@ const client = new ApolloClient({
   },
 })
 ```
-
----
-
-## 📚 Legacy Support
-
-The `/legacy` directory contains an older Next.js implementation. If your project specifically requires that version, refer to `legacy/README.md` for setup instructions.
