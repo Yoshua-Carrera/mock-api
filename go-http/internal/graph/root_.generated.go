@@ -10,7 +10,6 @@ import (
 	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -31,31 +30,21 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
-	Mock struct {
-		Done      func(childComplexity int) int
-		ID        func(childComplexity int) int
-		MockDelay func(childComplexity int) int
+	GenericMock struct {
+		Data             func(childComplexity int) int
+		Error            func(childComplexity int) int
+		ErrorCode        func(childComplexity int) int
+		MockDelay        func(childComplexity int) int
+		MockStatusCode   func(childComplexity int) int
+		OrchestratedMock func(childComplexity int) int
 	}
 
 	Mutation struct {
-		CreateMock func(childComplexity int, input model.NewMock) int
-		CreateTodo func(childComplexity int, input model.NewTodo) int
+		MutateMock func(childComplexity int) int
 	}
 
 	Query struct {
-		Todos func(childComplexity int) int
-	}
-
-	Todo struct {
-		Done func(childComplexity int) int
-		ID   func(childComplexity int) int
-		Text func(childComplexity int) int
-		User func(childComplexity int) int
-	}
-
-	User struct {
-		ID   func(childComplexity int) int
-		Name func(childComplexity int) int
+		QueryMock func(childComplexity int) int
 	}
 }
 
@@ -73,99 +62,61 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 	_ = ec
 	switch typeName + "." + field {
 
-	case "Mock.done":
-		if e.ComplexityRoot.Mock.Done == nil {
+	case "GenericMock.data":
+		if e.ComplexityRoot.GenericMock.Data == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Mock.Done(childComplexity), true
+		return e.ComplexityRoot.GenericMock.Data(childComplexity), true
 
-	case "Mock.id":
-		if e.ComplexityRoot.Mock.ID == nil {
+	case "GenericMock.error":
+		if e.ComplexityRoot.GenericMock.Error == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Mock.ID(childComplexity), true
+		return e.ComplexityRoot.GenericMock.Error(childComplexity), true
 
-	case "Mock.mockDelay":
-		if e.ComplexityRoot.Mock.MockDelay == nil {
+	case "GenericMock.errorCode":
+		if e.ComplexityRoot.GenericMock.ErrorCode == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Mock.MockDelay(childComplexity), true
+		return e.ComplexityRoot.GenericMock.ErrorCode(childComplexity), true
 
-	case "Mutation.createMock":
-		if e.ComplexityRoot.Mutation.CreateMock == nil {
+	case "GenericMock.mockDelay":
+		if e.ComplexityRoot.GenericMock.MockDelay == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_createMock_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
+		return e.ComplexityRoot.GenericMock.MockDelay(childComplexity), true
 
-		return e.ComplexityRoot.Mutation.CreateMock(childComplexity, args["input"].(model.NewMock)), true
-
-	case "Mutation.createTodo":
-		if e.ComplexityRoot.Mutation.CreateTodo == nil {
+	case "GenericMock.mockStatusCode":
+		if e.ComplexityRoot.GenericMock.MockStatusCode == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_createTodo_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
+		return e.ComplexityRoot.GenericMock.MockStatusCode(childComplexity), true
 
-		return e.ComplexityRoot.Mutation.CreateTodo(childComplexity, args["input"].(model.NewTodo)), true
-
-	case "Query.todos":
-		if e.ComplexityRoot.Query.Todos == nil {
+	case "GenericMock.orchestratedMock":
+		if e.ComplexityRoot.GenericMock.OrchestratedMock == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Query.Todos(childComplexity), true
+		return e.ComplexityRoot.GenericMock.OrchestratedMock(childComplexity), true
 
-	case "Todo.done":
-		if e.ComplexityRoot.Todo.Done == nil {
+	case "Mutation.mutateMock":
+		if e.ComplexityRoot.Mutation.MutateMock == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Todo.Done(childComplexity), true
+		return e.ComplexityRoot.Mutation.MutateMock(childComplexity), true
 
-	case "Todo.id":
-		if e.ComplexityRoot.Todo.ID == nil {
+	case "Query.queryMock":
+		if e.ComplexityRoot.Query.QueryMock == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Todo.ID(childComplexity), true
-
-	case "Todo.text":
-		if e.ComplexityRoot.Todo.Text == nil {
-			break
-		}
-
-		return e.ComplexityRoot.Todo.Text(childComplexity), true
-
-	case "Todo.user":
-		if e.ComplexityRoot.Todo.User == nil {
-			break
-		}
-
-		return e.ComplexityRoot.Todo.User(childComplexity), true
-
-	case "User.id":
-		if e.ComplexityRoot.User.ID == nil {
-			break
-		}
-
-		return e.ComplexityRoot.User.ID(childComplexity), true
-
-	case "User.name":
-		if e.ComplexityRoot.User.Name == nil {
-			break
-		}
-
-		return e.ComplexityRoot.User.Name(childComplexity), true
+		return e.ComplexityRoot.Query.QueryMock(childComplexity), true
 
 	}
 	return 0, false
@@ -174,10 +125,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	opCtx := graphql.GetOperationContext(ctx)
 	ec := newExecutionContext(opCtx, e, make(chan graphql.DeferredResult))
-	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
-		ec.unmarshalInputNewMock,
-		ec.unmarshalInputNewTodo,
-	)
+	inputUnmarshalMap := graphql.BuildUnmarshalerMap()
 	first := true
 
 	switch opCtx.Operation.Operation {
@@ -271,40 +219,22 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // Each function is generated once per unique object type, deduplicating the
 // switch statements that were previously inlined in every fieldContext_* function.
 
-func (ec *executionContext) childFields_Mock(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+func (ec *executionContext) childFields_GenericMock(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 	switch field.Name {
-	case "id":
-		return ec.fieldContext_Mock_id(ctx, field)
-	case "done":
-		return ec.fieldContext_Mock_done(ctx, field)
+	case "data":
+		return ec.fieldContext_GenericMock_data(ctx, field)
+	case "orchestratedMock":
+		return ec.fieldContext_GenericMock_orchestratedMock(ctx, field)
+	case "mockStatusCode":
+		return ec.fieldContext_GenericMock_mockStatusCode(ctx, field)
+	case "error":
+		return ec.fieldContext_GenericMock_error(ctx, field)
 	case "mockDelay":
-		return ec.fieldContext_Mock_mockDelay(ctx, field)
+		return ec.fieldContext_GenericMock_mockDelay(ctx, field)
+	case "errorCode":
+		return ec.fieldContext_GenericMock_errorCode(ctx, field)
 	}
-	return nil, fmt.Errorf("no field named %q was found under type Mock", field.Name)
-}
-
-func (ec *executionContext) childFields_Todo(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-	switch field.Name {
-	case "id":
-		return ec.fieldContext_Todo_id(ctx, field)
-	case "text":
-		return ec.fieldContext_Todo_text(ctx, field)
-	case "done":
-		return ec.fieldContext_Todo_done(ctx, field)
-	case "user":
-		return ec.fieldContext_Todo_user(ctx, field)
-	}
-	return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
-}
-
-func (ec *executionContext) childFields_User(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-	switch field.Name {
-	case "id":
-		return ec.fieldContext_User_id(ctx, field)
-	case "name":
-		return ec.fieldContext_User_name(ctx, field)
-	}
-	return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
+	return nil, fmt.Errorf("no field named %q was found under type GenericMock", field.Name)
 }
 
 func (ec *executionContext) childFields___Directive(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {

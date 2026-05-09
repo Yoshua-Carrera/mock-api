@@ -2,35 +2,17 @@
 
 package model
 
-type Mock struct {
-	ID        string `json:"id"`
-	Done      bool   `json:"done"`
-	MockDelay string `json:"mockDelay"`
+type GenericMock struct {
+	Data             string    `json:"data"`
+	OrchestratedMock []*string `json:"orchestratedMock,omitempty"`
+	MockStatusCode   *int32    `json:"mockStatusCode,omitempty"`
+	Error            []*string `json:"error,omitempty"`
+	MockDelay        string    `json:"mockDelay"`
+	ErrorCode        int32     `json:"errorCode"`
 }
 
 type Mutation struct {
 }
 
-type NewMock struct {
-	MockDelay string `json:"mockDelay"`
-}
-
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
-}
-
 type Query struct {
-}
-
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
-}
-
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
 }

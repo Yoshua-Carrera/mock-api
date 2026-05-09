@@ -1,39 +1,18 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
+scalar JSON
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
-type User {
-  id: ID!
-  name: String!
-}
-
-type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
-type Mock {
-  id: ID!
-  done: Boolean!
+type GenericMock {
+  data: JSON!
+  orchestratedMock: [JSON]
+  mockStatusCode: Int
+  error: [JSON]
   mockDelay: String!
-}
-
-input NewMock {
-  mockDelay: String!
+  errorCode: Int!
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
-  createMock(input: NewMock!): Mock!
+  mutateMock: GenericMock!
+}
+
+type Query {
+  queryMock: GenericMock!
 }

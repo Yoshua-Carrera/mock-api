@@ -12,19 +12,14 @@ import (
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// MutateMock is the resolver for the mutateMock field.
+func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
+	panic(fmt.Errorf("not implemented: MutateMock - mutateMock"))
 }
 
-// CreateMock is the resolver for the createMock field.
-func (r *mutationResolver) CreateMock(ctx context.Context, input model.NewMock) (*model.Mock, error) {
-	panic(fmt.Errorf("not implemented: CreateMock - createMock"))
-}
-
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// QueryMock is the resolver for the queryMock field.
+func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
+	panic(fmt.Errorf("not implemented: QueryMock - queryMock"))
 }
 
 // Mutation returns MutationResolver implementation.

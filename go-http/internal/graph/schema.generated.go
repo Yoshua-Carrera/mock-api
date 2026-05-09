@@ -18,44 +18,15 @@ import (
 // region    ************************** generated!.gotpl **************************
 
 type MutationResolver interface {
-	CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error)
-	CreateMock(ctx context.Context, input model.NewMock) (*model.Mock, error)
+	MutateMock(ctx context.Context) (*model.GenericMock, error)
 }
 type QueryResolver interface {
-	Todos(ctx context.Context) ([]*model.Todo, error)
+	QueryMock(ctx context.Context) (*model.GenericMock, error)
 }
 
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
-
-func (ec *executionContext) field_Mutation_createMock_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input",
-		func(ctx context.Context, v any) (model.NewMock, error) {
-			return ec.unmarshalNNewMock2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐNewMock(ctx, v)
-		})
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_createTodo_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input",
-		func(ctx context.Context, v any) (model.NewTodo, error) {
-			return ec.unmarshalNNewTodo2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐNewTodo(ctx, v)
-		})
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg0
-	return args, nil
-}
 
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
@@ -79,59 +50,105 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Mock_id(ctx context.Context, field graphql.CollectedField, obj *model.Mock) (ret graphql.Marshaler) {
+func (ec *executionContext) _GenericMock_data(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
 		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Mock_id(ctx, field)
+			return ec.fieldContext_GenericMock_data(ctx, field)
 		},
 		func(ctx context.Context) (any, error) {
-			return obj.ID, nil
+			return obj.Data, nil
 		},
 		nil,
 		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNID2string(ctx, selections, v)
+			return ec.marshalNJSON2string(ctx, selections, v)
 		},
 		true,
 		true,
 	)
 }
-func (ec *executionContext) fieldContext_Mock_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("Mock", field, false, false, errors.New("field of type ID does not have child fields"))
+func (ec *executionContext) fieldContext_GenericMock_data(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type JSON does not have child fields"))
 }
 
-func (ec *executionContext) _Mock_done(ctx context.Context, field graphql.CollectedField, obj *model.Mock) (ret graphql.Marshaler) {
+func (ec *executionContext) _GenericMock_orchestratedMock(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
 		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Mock_done(ctx, field)
+			return ec.fieldContext_GenericMock_orchestratedMock(ctx, field)
 		},
 		func(ctx context.Context) (any, error) {
-			return obj.Done, nil
+			return obj.OrchestratedMock, nil
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v bool) graphql.Marshaler {
-			return ec.marshalNBoolean2bool(ctx, selections, v)
+		func(ctx context.Context, selections ast.SelectionSet, v []*string) graphql.Marshaler {
+			return ec.marshalOJSON2ᚕᚖstring(ctx, selections, v)
 		},
 		true,
-		true,
+		false,
 	)
 }
-func (ec *executionContext) fieldContext_Mock_done(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("Mock", field, false, false, errors.New("field of type Boolean does not have child fields"))
+func (ec *executionContext) fieldContext_GenericMock_orchestratedMock(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type JSON does not have child fields"))
 }
 
-func (ec *executionContext) _Mock_mockDelay(ctx context.Context, field graphql.CollectedField, obj *model.Mock) (ret graphql.Marshaler) {
+func (ec *executionContext) _GenericMock_mockStatusCode(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
 		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Mock_mockDelay(ctx, field)
+			return ec.fieldContext_GenericMock_mockStatusCode(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.MockStatusCode, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v *int32) graphql.Marshaler {
+			return ec.marshalOInt2ᚖint32(ctx, selections, v)
+		},
+		true,
+		false,
+	)
+}
+func (ec *executionContext) fieldContext_GenericMock_mockStatusCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type Int does not have child fields"))
+}
+
+func (ec *executionContext) _GenericMock_error(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_GenericMock_error(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.Error, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v []*string) graphql.Marshaler {
+			return ec.marshalOJSON2ᚕᚖstring(ctx, selections, v)
+		},
+		true,
+		false,
+	)
+}
+func (ec *executionContext) fieldContext_GenericMock_error(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type JSON does not have child fields"))
+}
+
+func (ec *executionContext) _GenericMock_mockDelay(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_GenericMock_mockDelay(ctx, field)
 		},
 		func(ctx context.Context) (any, error) {
 			return obj.MockDelay, nil
@@ -144,125 +161,92 @@ func (ec *executionContext) _Mock_mockDelay(ctx context.Context, field graphql.C
 		true,
 	)
 }
-func (ec *executionContext) fieldContext_Mock_mockDelay(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("Mock", field, false, false, errors.New("field of type String does not have child fields"))
+func (ec *executionContext) fieldContext_GenericMock_mockDelay(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type String does not have child fields"))
 }
 
-func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _GenericMock_errorCode(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
 		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Mutation_createTodo(ctx, field)
+			return ec.fieldContext_GenericMock_errorCode(ctx, field)
 		},
 		func(ctx context.Context) (any, error) {
-			fc := graphql.GetFieldContext(ctx)
-			return ec.Resolvers.Mutation().CreateTodo(ctx, fc.Args["input"].(model.NewTodo))
+			return obj.ErrorCode, nil
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v *model.Todo) graphql.Marshaler {
-			return ec.marshalNTodo2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐTodo(ctx, selections, v)
+		func(ctx context.Context, selections ast.SelectionSet, v int32) graphql.Marshaler {
+			return ec.marshalNInt2int32(ctx, selections, v)
 		},
 		true,
 		true,
 	)
 }
-func (ec *executionContext) fieldContext_Mutation_createTodo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_GenericMock_errorCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type Int does not have child fields"))
+}
+
+func (ec *executionContext) _Mutation_mutateMock(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Mutation_mutateMock(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return ec.Resolvers.Mutation().MutateMock(ctx)
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v *model.GenericMock) graphql.Marshaler {
+			return ec.marshalNGenericMock2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐGenericMock(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Mutation_mutateMock(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.childFields_Todo(ctx, field)
+			return ec.childFields_GenericMock(ctx, field)
 		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createTodo_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createMock(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Query_queryMock(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
 		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Mutation_createMock(ctx, field)
+			return ec.fieldContext_Query_queryMock(ctx, field)
 		},
 		func(ctx context.Context) (any, error) {
-			fc := graphql.GetFieldContext(ctx)
-			return ec.Resolvers.Mutation().CreateMock(ctx, fc.Args["input"].(model.NewMock))
+			return ec.Resolvers.Query().QueryMock(ctx)
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v *model.Mock) graphql.Marshaler {
-			return ec.marshalNMock2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐMock(ctx, selections, v)
+		func(ctx context.Context, selections ast.SelectionSet, v *model.GenericMock) graphql.Marshaler {
+			return ec.marshalNGenericMock2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐGenericMock(ctx, selections, v)
 		},
 		true,
 		true,
 	)
 }
-func (ec *executionContext) fieldContext_Mutation_createMock(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.childFields_Mock(ctx, field)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createMock_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Query_todos(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return ec.Resolvers.Query().Todos(ctx)
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v []*model.Todo) graphql.Marshaler {
-			return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐTodoᚄ(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_Query_todos(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_queryMock(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.childFields_Todo(ctx, field)
+			return ec.childFields_GenericMock(ctx, field)
 		},
 	}
 	return fc, nil
@@ -344,223 +328,9 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Todo_id(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Todo_id(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.ID, nil
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNID2string(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_Todo_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("Todo", field, false, false, errors.New("field of type ID does not have child fields"))
-}
-
-func (ec *executionContext) _Todo_text(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Todo_text(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.Text, nil
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNString2string(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_Todo_text(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("Todo", field, false, false, errors.New("field of type String does not have child fields"))
-}
-
-func (ec *executionContext) _Todo_done(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Todo_done(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.Done, nil
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v bool) graphql.Marshaler {
-			return ec.marshalNBoolean2bool(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_Todo_done(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("Todo", field, false, false, errors.New("field of type Boolean does not have child fields"))
-}
-
-func (ec *executionContext) _Todo_user(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Todo_user(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.User, nil
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v *model.User) graphql.Marshaler {
-			return ec.marshalNUser2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐUser(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_Todo_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Todo",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.childFields_User(ctx, field)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_User_id(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.ID, nil
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNID2string(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_User_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("User", field, false, false, errors.New("field of type ID does not have child fields"))
-}
-
-func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_User_name(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.Name, nil
-		},
-		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNString2string(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_User_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("User", field, false, false, errors.New("field of type String does not have child fields"))
-}
-
 // endregion **************************** field.gotpl *****************************
 
 // region    **************************** input.gotpl *****************************
-
-func (ec *executionContext) unmarshalInputNewMock(ctx context.Context, obj any) (model.NewMock, error) {
-	var it model.NewMock
-	if obj == nil {
-		return it, nil
-	}
-
-	asMap := map[string]any{}
-	for k, v := range obj.(map[string]any) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"mockDelay"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "mockDelay":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("mockDelay"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.MockDelay = data
-		}
-	}
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj any) (model.NewTodo, error) {
-	var it model.NewTodo
-	if obj == nil {
-		return it, nil
-	}
-
-	asMap := map[string]any{}
-	for k, v := range obj.(map[string]any) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"text", "userId"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "text":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("text"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Text = data
-		case "userId":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.UserID = data
-		}
-	}
-	return it, nil
-}
 
 // endregion **************************** input.gotpl *****************************
 
@@ -570,29 +340,35 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj any) 
 
 // region    **************************** object.gotpl ****************************
 
-var mockImplementors = []string{"Mock"}
+var genericMockImplementors = []string{"GenericMock"}
 
-func (ec *executionContext) _Mock(ctx context.Context, sel ast.SelectionSet, obj *model.Mock) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, mockImplementors)
+func (ec *executionContext) _GenericMock(ctx context.Context, sel ast.SelectionSet, obj *model.GenericMock) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, genericMockImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	deferred := make(map[string]*graphql.FieldSet)
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("Mock")
-		case "id":
-			out.Values[i] = ec._Mock_id(ctx, field, obj)
+			out.Values[i] = graphql.MarshalString("GenericMock")
+		case "data":
+			out.Values[i] = ec._GenericMock_data(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "done":
-			out.Values[i] = ec._Mock_done(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+		case "orchestratedMock":
+			out.Values[i] = ec._GenericMock_orchestratedMock(ctx, field, obj)
+		case "mockStatusCode":
+			out.Values[i] = ec._GenericMock_mockStatusCode(ctx, field, obj)
+		case "error":
+			out.Values[i] = ec._GenericMock_error(ctx, field, obj)
 		case "mockDelay":
-			out.Values[i] = ec._Mock_mockDelay(ctx, field, obj)
+			out.Values[i] = ec._GenericMock_mockDelay(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "errorCode":
+			out.Values[i] = ec._GenericMock_errorCode(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -638,16 +414,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "createTodo":
+		case "mutateMock":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createTodo(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createMock":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createMock(ctx, field)
+				return ec._Mutation_mutateMock(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -694,7 +463,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "todos":
+		case "queryMock":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -703,7 +472,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_todos(ctx, field)
+				res = ec._Query_queryMock(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -747,170 +516,86 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 	return out
 }
 
-var todoImplementors = []string{"Todo"}
-
-func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj *model.Todo) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, todoImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Todo")
-		case "id":
-			out.Values[i] = ec._Todo_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "text":
-			out.Values[i] = ec._Todo_text(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "done":
-			out.Values[i] = ec._Todo_done(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "user":
-			out.Values[i] = ec._Todo_user(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.Deferred, int32(min(len(deferred), math.MaxInt32)))
-
-	for label, dfs := range deferred {
-		ec.ProcessDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var userImplementors = []string{"User"}
-
-func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("User")
-		case "id":
-			out.Values[i] = ec._User_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "name":
-			out.Values[i] = ec._User_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.Deferred, int32(min(len(deferred), math.MaxInt32)))
-
-	for label, dfs := range deferred {
-		ec.ProcessDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNMock2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐMock(ctx context.Context, sel ast.SelectionSet, v model.Mock) graphql.Marshaler {
-	return ec._Mock(ctx, sel, &v)
+func (ec *executionContext) marshalNGenericMock2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐGenericMock(ctx context.Context, sel ast.SelectionSet, v model.GenericMock) graphql.Marshaler {
+	return ec._GenericMock(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMock2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐMock(ctx context.Context, sel ast.SelectionSet, v *model.Mock) graphql.Marshaler {
+func (ec *executionContext) marshalNGenericMock2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐGenericMock(ctx context.Context, sel ast.SelectionSet, v *model.GenericMock) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
-	return ec._Mock(ctx, sel, v)
+	return ec._GenericMock(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNNewMock2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐNewMock(ctx context.Context, v any) (model.NewMock, error) {
-	res, err := ec.unmarshalInputNewMock(ctx, v)
+func (ec *executionContext) unmarshalNJSON2string(ctx context.Context, v any) (string, error) {
+	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐNewTodo(ctx context.Context, v any) (model.NewTodo, error) {
-	res, err := ec.unmarshalInputNewTodo(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNTodo2githubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v model.Todo) graphql.Marshaler {
-	return ec._Todo(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐTodoᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Todo) graphql.Marshaler {
-	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
-		fc := graphql.GetFieldContext(ctx)
-		fc.Result = &v[i]
-		return ec.marshalNTodo2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐTodo(ctx, sel, v[i])
-	})
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
+func (ec *executionContext) marshalNJSON2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
+	_ = sel
+	res := graphql.MarshalString(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
 		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalOJSON2ᚕᚖstring(ctx context.Context, v any) ([]*string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOJSON2ᚖstring(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOJSON2ᚕᚖstring(ctx context.Context, sel ast.SelectionSet, v []*string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalOJSON2ᚖstring(ctx, sel, v[i])
 	}
 
 	return ret
 }
 
-func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v *model.Todo) graphql.Marshaler {
+func (ec *executionContext) unmarshalOJSON2ᚖstring(ctx context.Context, v any) (*string, error) {
 	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
+		return nil, nil
 	}
-	return ec._Todo(ctx, sel, v)
+	res, err := graphql.UnmarshalString(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalOJSON2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
 	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
-		}
 		return graphql.Null
 	}
-	return ec._User(ctx, sel, v)
+	_ = sel
+	_ = ctx
+	res := graphql.MarshalString(*v)
+	return res
 }
 
 // endregion ***************************** type.gotpl *****************************
