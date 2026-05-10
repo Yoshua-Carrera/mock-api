@@ -1,12 +1,16 @@
-scalar JSON
+scalar Json
+type Error {
+  message: String!
+  code: Int!
+  field: String
+}
 
 type GenericMock {
-  data: JSON!
-  orchestratedMock: [JSON]
+  data: Json!
+  orchestratedMock: [Json]
   mockStatusCode: Int
-  error: [JSON]
-  mockDelay: String!
-  errorCode: Int!
+  error: [Error]
+  mockDelay: Int!
 }
 
 type Mutation {

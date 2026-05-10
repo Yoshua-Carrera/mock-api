@@ -30,10 +30,15 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	Error struct {
+		Code    func(childComplexity int) int
+		Field   func(childComplexity int) int
+		Message func(childComplexity int) int
+	}
+
 	GenericMock struct {
 		Data             func(childComplexity int) int
 		Error            func(childComplexity int) int
-		ErrorCode        func(childComplexity int) int
 		MockDelay        func(childComplexity int) int
 		MockStatusCode   func(childComplexity int) int
 		OrchestratedMock func(childComplexity int) int
@@ -62,6 +67,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 	_ = ec
 	switch typeName + "." + field {
 
+	case "Error.code":
+		if e.ComplexityRoot.Error.Code == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Error.Code(childComplexity), true
+
+	case "Error.field":
+		if e.ComplexityRoot.Error.Field == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Error.Field(childComplexity), true
+
+	case "Error.message":
+		if e.ComplexityRoot.Error.Message == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Error.Message(childComplexity), true
+
 	case "GenericMock.data":
 		if e.ComplexityRoot.GenericMock.Data == nil {
 			break
@@ -75,13 +101,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.GenericMock.Error(childComplexity), true
-
-	case "GenericMock.errorCode":
-		if e.ComplexityRoot.GenericMock.ErrorCode == nil {
-			break
-		}
-
-		return e.ComplexityRoot.GenericMock.ErrorCode(childComplexity), true
 
 	case "GenericMock.mockDelay":
 		if e.ComplexityRoot.GenericMock.MockDelay == nil {
@@ -219,6 +238,18 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // Each function is generated once per unique object type, deduplicating the
 // switch statements that were previously inlined in every fieldContext_* function.
 
+func (ec *executionContext) childFields_Error(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+	switch field.Name {
+	case "message":
+		return ec.fieldContext_Error_message(ctx, field)
+	case "code":
+		return ec.fieldContext_Error_code(ctx, field)
+	case "field":
+		return ec.fieldContext_Error_field(ctx, field)
+	}
+	return nil, fmt.Errorf("no field named %q was found under type Error", field.Name)
+}
+
 func (ec *executionContext) childFields_GenericMock(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 	switch field.Name {
 	case "data":
@@ -231,8 +262,6 @@ func (ec *executionContext) childFields_GenericMock(ctx context.Context, field g
 		return ec.fieldContext_GenericMock_error(ctx, field)
 	case "mockDelay":
 		return ec.fieldContext_GenericMock_mockDelay(ctx, field)
-	case "errorCode":
-		return ec.fieldContext_GenericMock_errorCode(ctx, field)
 	}
 	return nil, fmt.Errorf("no field named %q was found under type GenericMock", field.Name)
 }

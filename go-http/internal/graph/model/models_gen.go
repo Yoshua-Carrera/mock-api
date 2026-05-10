@@ -2,13 +2,18 @@
 
 package model
 
+type Error struct {
+	Message string  `json:"message"`
+	Code    int32   `json:"code"`
+	Field   *string `json:"field,omitempty"`
+}
+
 type GenericMock struct {
-	Data             string    `json:"data"`
-	OrchestratedMock []*string `json:"orchestratedMock,omitempty"`
-	MockStatusCode   *int32    `json:"mockStatusCode,omitempty"`
-	Error            []*string `json:"error,omitempty"`
-	MockDelay        string    `json:"mockDelay"`
-	ErrorCode        int32     `json:"errorCode"`
+	Data             map[string]any   `json:"data"`
+	OrchestratedMock []map[string]any `json:"orchestratedMock,omitempty"`
+	MockStatusCode   *int32           `json:"mockStatusCode,omitempty"`
+	Error            []*Error         `json:"error,omitempty"`
+	MockDelay        int32            `json:"mockDelay"`
 }
 
 type Mutation struct {

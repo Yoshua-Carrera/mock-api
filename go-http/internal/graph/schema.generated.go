@@ -50,6 +50,75 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 
 // region    **************************** field.gotpl *****************************
 
+func (ec *executionContext) _Error_message(ctx context.Context, field graphql.CollectedField, obj *model.Error) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Error_message(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.Message, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
+			return ec.marshalNString2string(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Error_message(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Error", field, false, false, errors.New("field of type String does not have child fields"))
+}
+
+func (ec *executionContext) _Error_code(ctx context.Context, field graphql.CollectedField, obj *model.Error) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Error_code(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.Code, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v int32) graphql.Marshaler {
+			return ec.marshalNInt2int32(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Error_code(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Error", field, false, false, errors.New("field of type Int does not have child fields"))
+}
+
+func (ec *executionContext) _Error_field(ctx context.Context, field graphql.CollectedField, obj *model.Error) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Error_field(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.Field, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v *string) graphql.Marshaler {
+			return ec.marshalOString2ᚖstring(ctx, selections, v)
+		},
+		true,
+		false,
+	)
+}
+func (ec *executionContext) fieldContext_Error_field(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Error", field, false, false, errors.New("field of type String does not have child fields"))
+}
+
 func (ec *executionContext) _GenericMock_data(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -62,15 +131,15 @@ func (ec *executionContext) _GenericMock_data(ctx context.Context, field graphql
 			return obj.Data, nil
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNJSON2string(ctx, selections, v)
+		func(ctx context.Context, selections ast.SelectionSet, v map[string]any) graphql.Marshaler {
+			return ec.marshalNJson2map(ctx, selections, v)
 		},
 		true,
 		true,
 	)
 }
 func (ec *executionContext) fieldContext_GenericMock_data(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type JSON does not have child fields"))
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type Json does not have child fields"))
 }
 
 func (ec *executionContext) _GenericMock_orchestratedMock(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
@@ -85,15 +154,15 @@ func (ec *executionContext) _GenericMock_orchestratedMock(ctx context.Context, f
 			return obj.OrchestratedMock, nil
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v []*string) graphql.Marshaler {
-			return ec.marshalOJSON2ᚕᚖstring(ctx, selections, v)
+		func(ctx context.Context, selections ast.SelectionSet, v []map[string]any) graphql.Marshaler {
+			return ec.marshalOJson2ᚕmap(ctx, selections, v)
 		},
 		true,
 		false,
 	)
 }
 func (ec *executionContext) fieldContext_GenericMock_orchestratedMock(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type JSON does not have child fields"))
+	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type Json does not have child fields"))
 }
 
 func (ec *executionContext) _GenericMock_mockStatusCode(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
@@ -131,15 +200,24 @@ func (ec *executionContext) _GenericMock_error(ctx context.Context, field graphq
 			return obj.Error, nil
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v []*string) graphql.Marshaler {
-			return ec.marshalOJSON2ᚕᚖstring(ctx, selections, v)
+		func(ctx context.Context, selections ast.SelectionSet, v []*model.Error) graphql.Marshaler {
+			return ec.marshalOError2ᚕᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐError(ctx, selections, v)
 		},
 		true,
 		false,
 	)
 }
 func (ec *executionContext) fieldContext_GenericMock_error(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type JSON does not have child fields"))
+	fc = &graphql.FieldContext{
+		Object:     "GenericMock",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.childFields_Error(ctx, field)
+		},
+	}
+	return fc, nil
 }
 
 func (ec *executionContext) _GenericMock_mockDelay(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
@@ -154,29 +232,6 @@ func (ec *executionContext) _GenericMock_mockDelay(ctx context.Context, field gr
 			return obj.MockDelay, nil
 		},
 		nil,
-		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
-			return ec.marshalNString2string(ctx, selections, v)
-		},
-		true,
-		true,
-	)
-}
-func (ec *executionContext) fieldContext_GenericMock_mockDelay(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type String does not have child fields"))
-}
-
-func (ec *executionContext) _GenericMock_errorCode(ctx context.Context, field graphql.CollectedField, obj *model.GenericMock) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_GenericMock_errorCode(ctx, field)
-		},
-		func(ctx context.Context) (any, error) {
-			return obj.ErrorCode, nil
-		},
-		nil,
 		func(ctx context.Context, selections ast.SelectionSet, v int32) graphql.Marshaler {
 			return ec.marshalNInt2int32(ctx, selections, v)
 		},
@@ -184,7 +239,7 @@ func (ec *executionContext) _GenericMock_errorCode(ctx context.Context, field gr
 		true,
 	)
 }
-func (ec *executionContext) fieldContext_GenericMock_errorCode(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_GenericMock_mockDelay(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	return graphql.NewScalarFieldContext("GenericMock", field, false, false, errors.New("field of type Int does not have child fields"))
 }
 
@@ -340,6 +395,52 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 
 // region    **************************** object.gotpl ****************************
 
+var errorImplementors = []string{"Error"}
+
+func (ec *executionContext) _Error(ctx context.Context, sel ast.SelectionSet, obj *model.Error) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, errorImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Error")
+		case "message":
+			out.Values[i] = ec._Error_message(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "code":
+			out.Values[i] = ec._Error_code(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "field":
+			out.Values[i] = ec._Error_field(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.Deferred, int32(min(len(deferred), math.MaxInt32)))
+
+	for label, dfs := range deferred {
+		ec.ProcessDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var genericMockImplementors = []string{"GenericMock"}
 
 func (ec *executionContext) _GenericMock(ctx context.Context, sel ast.SelectionSet, obj *model.GenericMock) graphql.Marshaler {
@@ -364,11 +465,6 @@ func (ec *executionContext) _GenericMock(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._GenericMock_error(ctx, field, obj)
 		case "mockDelay":
 			out.Values[i] = ec._GenericMock_mockDelay(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "errorCode":
-			out.Values[i] = ec._GenericMock_errorCode(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -534,14 +630,20 @@ func (ec *executionContext) marshalNGenericMock2ᚖgithubᚗcomᚋYoshuaᚑCarre
 	return ec._GenericMock(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNJSON2string(ctx context.Context, v any) (string, error) {
-	res, err := graphql.UnmarshalString(v)
+func (ec *executionContext) unmarshalNJson2map(ctx context.Context, v any) (map[string]any, error) {
+	res, err := graphql.UnmarshalMap(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNJSON2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
+func (ec *executionContext) marshalNJson2map(ctx context.Context, sel ast.SelectionSet, v map[string]any) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
 	_ = sel
-	res := graphql.MarshalString(v)
+	res := graphql.MarshalMap(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
@@ -550,17 +652,55 @@ func (ec *executionContext) marshalNJSON2string(ctx context.Context, sel ast.Sel
 	return res
 }
 
-func (ec *executionContext) unmarshalOJSON2ᚕᚖstring(ctx context.Context, v any) ([]*string, error) {
+func (ec *executionContext) marshalOError2ᚕᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐError(ctx context.Context, sel ast.SelectionSet, v []*model.Error) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := graphql.MarshalSliceConcurrently(ctx, len(v), 0, false, func(ctx context.Context, i int) graphql.Marshaler {
+		fc := graphql.GetFieldContext(ctx)
+		fc.Result = &v[i]
+		return ec.marshalOError2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐError(ctx, sel, v[i])
+	})
+
+	return ret
+}
+
+func (ec *executionContext) marshalOError2ᚖgithubᚗcomᚋYoshuaᚑCarreraᚋmockᚑapiᚋgoᚑhttpᚋinternalᚋgraphᚋmodelᚐError(ctx context.Context, sel ast.SelectionSet, v *model.Error) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Error(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOJson2map(ctx context.Context, v any) (map[string]any, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalMap(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOJson2map(ctx context.Context, sel ast.SelectionSet, v map[string]any) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	_ = sel
+	_ = ctx
+	res := graphql.MarshalMap(v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOJson2ᚕmap(ctx context.Context, v any) ([]map[string]any, error) {
 	if v == nil {
 		return nil, nil
 	}
 	var vSlice []any
 	vSlice = graphql.CoerceList(v)
 	var err error
-	res := make([]*string, len(vSlice))
+	res := make([]map[string]any, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOJSON2ᚖstring(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOJson2map(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -568,34 +708,16 @@ func (ec *executionContext) unmarshalOJSON2ᚕᚖstring(ctx context.Context, v a
 	return res, nil
 }
 
-func (ec *executionContext) marshalOJSON2ᚕᚖstring(ctx context.Context, sel ast.SelectionSet, v []*string) graphql.Marshaler {
+func (ec *executionContext) marshalOJson2ᚕmap(ctx context.Context, sel ast.SelectionSet, v []map[string]any) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	ret := make(graphql.Array, len(v))
 	for i := range v {
-		ret[i] = ec.marshalOJSON2ᚖstring(ctx, sel, v[i])
+		ret[i] = ec.marshalOJson2map(ctx, sel, v[i])
 	}
 
 	return ret
-}
-
-func (ec *executionContext) unmarshalOJSON2ᚖstring(ctx context.Context, v any) (*string, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalString(v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOJSON2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	_ = sel
-	_ = ctx
-	res := graphql.MarshalString(*v)
-	return res
 }
 
 // endregion ***************************** type.gotpl *****************************
