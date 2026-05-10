@@ -1,5 +1,7 @@
 package graph
 
+import "github.com/Yoshua-Carrera/mock-api/go-http/internal/service"
+
 //go:generate go tool gqlgen generate
 
 // This file will not be regenerated automatically.
@@ -7,4 +9,6 @@ package graph
 // It serves as dependency injection for your app, add any dependencies you require
 // here.
 
-type Resolver struct{}
+type Resolver struct {
+	FileLoader *service.FileLoader
+}
