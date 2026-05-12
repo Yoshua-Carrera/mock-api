@@ -12,6 +12,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph"
+	"github.com/Yoshua-Carrera/mock-api/go-http/internal/middleware"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -42,7 +43,7 @@ func main() {
 	})
 
 	http.Handle("/gql", playground.Handler("GraphQL sandbox", "/graphql"))
-	http.Handle("/graphql", srv)
+	http.Handle("/graphql", middleware.Logging(srv))
 
 	log.Printf("[info] - Server starting on port %s", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
