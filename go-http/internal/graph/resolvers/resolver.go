@@ -1,4 +1,4 @@
-package graph
+package resolvers
 
 import "github.com/Yoshua-Carrera/mock-api/go-http/internal/service"
 

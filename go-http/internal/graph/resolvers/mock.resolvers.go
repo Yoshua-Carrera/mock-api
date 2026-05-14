@@ -1,4 +1,4 @@
-package graph
+package resolvers
 
 // This file will be automatically regenerated based on the schema, any resolver
 // implementations
@@ -7,7 +7,7 @@ package graph
 
 import (
 	"context"
-
+	// "github.com/99designs/gqlgen/graphql"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 )
 
@@ -22,6 +22,7 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 
 // QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
+	// rc := graphql.GetOperationContext(ctx)
 	genericMock, err := r.FileLoader.LoadFile("query")
 	if err != nil {
 		return nil, err
