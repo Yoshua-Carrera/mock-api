@@ -1,0 +1,22 @@
+scalar Json
+type Error {
+  message: String!
+  code: Int!
+  field: String
+}
+
+type GenericMock {
+  data: Json!
+  orchestratedMock: [Json]
+  mockStatusCode: Int
+  error: [Error]
+  mockDelay: Int!
+}
+
+extend type Mutation {
+  mutateMock: GenericMock!
+}
+
+extend type Query {
+  queryMock: GenericMock!
+}
