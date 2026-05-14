@@ -13,34 +13,20 @@ import (
 
 // MutateMock is the resolver for the mutateMock field.
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
-	mockStatusCode := int32(200)
-	someData, err := r.FileLoader.LoadFile("mutation")
+	genericMock, err := r.FileLoader.LoadFile("mutation")
 	if err != nil {
 		return nil, err
 	}
-	genericMock := &model.GenericMock{
-		Data:           someData,
-		MockStatusCode: &mockStatusCode,
-		Error:          []*model.Error{},
-		MockDelay:      2000,
-	}
-	return genericMock, nil
+	return &genericMock, nil
 }
 
 // QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
-	mockStatusCode := int32(200)
-	someData, err := r.FileLoader.LoadFile("query")
+	genericMock, err := r.FileLoader.LoadFile("query")
 	if err != nil {
 		return nil, err
 	}
-	genericMock := &model.GenericMock{
-		Data:           someData,
-		MockStatusCode: &mockStatusCode,
-		Error:          []*model.Error{},
-		MockDelay:      2000,
-	}
-	return genericMock, nil
+	return &genericMock, nil
 }
 
 // Mutation returns MutationResolver implementation.
