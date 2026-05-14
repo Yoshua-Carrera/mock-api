@@ -3,4 +3,5 @@
   bin = "tmp/main"
   include_ext = ["go", "tpl", "html"]
   exclude_dir = ["tmp", "vendor"]
+  stop_on_error = true
   delay = 1000
