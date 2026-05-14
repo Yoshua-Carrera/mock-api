@@ -8,6 +8,7 @@ package graph
 import (
 	"context"
 
+	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 )
 
@@ -30,10 +31,10 @@ func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, erro
 }
 
 // Mutation returns MutationResolver implementation.
-func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
-func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
+func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
 type (
 	mutationResolver struct{ *Resolver }

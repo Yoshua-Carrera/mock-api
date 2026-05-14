@@ -41,7 +41,7 @@ model:
 resolver:
   package: graph
   layout: follow-schema
-  dir: internal/graph
+  dir: internal/graph/resolvers
   filename_template: "{name}.resolvers.go"
 
   # Only for single-file layout:
