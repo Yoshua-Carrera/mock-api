@@ -30,10 +30,10 @@ func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, erro
 	return &genericMock, nil
 }
 
-// Mutation returns MutationResolver implementation.
+// Mutation returns graph.MutationResolver implementation.
 func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
-// Query returns QueryResolver implementation.
+// Query returns graph.QueryResolver implementation.
 func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
 type (
