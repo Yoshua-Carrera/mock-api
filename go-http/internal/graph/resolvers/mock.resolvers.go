@@ -15,7 +15,8 @@ import (
 // MutateMock is the resolver for the mutateMock field.
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
-	genericMock, err := r.FileLoader.LoadFile("mutation", c)
+	mockUserName := r.FileLoader.ExtractHeaders(c)
+	genericMock, err := r.FileLoader.LoadFile(c, mockUserName)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +26,8 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 // QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
-	genericMock, err := r.FileLoader.LoadFile("query", c)
+	mockUserName := r.FileLoader.ExtractHeaders(c)
+	genericMock, err := r.FileLoader.LoadFile(c, mockUserName)
 	if err != nil {
 		return nil, err
 	}
