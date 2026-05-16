@@ -13,6 +13,7 @@ import (
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 )
 
+// MutateMock is the resolver for the mutateMock field.
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
@@ -25,6 +26,7 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 	return &genericMock, nil
 }
 
+// QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)

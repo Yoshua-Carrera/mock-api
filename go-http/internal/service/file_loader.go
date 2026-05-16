@@ -23,11 +23,12 @@ func (f *FileLoader) ExtractHeaders(c *graphql.OperationContext) string {
 func (f *FileLoader) handleLoadFileError(err error, c *graphql.OperationContext, mockUserName string) (model.GenericMock, error) {
 	errorCode := int32(404)
 	if mockUserName == "_default" {
+		log.Printf("[error - gql] mock not found, please add a a mock username under './mock/%s/%s/%s.json'.\n", c.Operation.Operation, c.OperationName, mockUserName)
 		return model.GenericMock{
 			MockStatusCode: &errorCode,
 		}, err
 	} else {
-		log.Printf("[warning - gql] %s not found, please adda a mock username under './mock/%s/%s/%s.json', attempting to use _default username instead.\n", mockUserName, c.Operation.Operation, c.OperationName, mockUserName)
+		log.Printf("[warning - gql] %s not found, please add a a mock username under './mock/%s/%s/%s.json', attempting to use _default username instead.\n", mockUserName, c.Operation.Operation, c.OperationName, mockUserName)
 		return f.LoadFile(c, "_default")
 	}
 }

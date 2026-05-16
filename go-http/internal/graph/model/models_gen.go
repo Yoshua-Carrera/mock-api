@@ -16,8 +16,6 @@ type GenericMock struct {
 	MockDelay        int32            `json:"mockDelay"`
 }
 
-type Mutation struct {
-}
+type Mutation struct{}
 
-type Query struct {
-}
+type Query struct{}
