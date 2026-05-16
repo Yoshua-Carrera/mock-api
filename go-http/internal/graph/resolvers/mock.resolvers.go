@@ -7,27 +7,30 @@ package resolvers
 
 import (
 	"context"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 )
 
-// MutateMock is the resolver for the mutateMock field.
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
 	genericMock, err := r.FileLoader.LoadFile(c, mockUserName)
+	delay := genericMock.MockDelay
+	time.Sleep(time.Millisecond * time.Duration(delay))
 	if err != nil {
 		return nil, err
 	}
 	return &genericMock, nil
 }
 
-// QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
 	genericMock, err := r.FileLoader.LoadFile(c, mockUserName)
+	delay := genericMock.MockDelay
+	time.Sleep(time.Millisecond * time.Duration(delay))
 	if err != nil {
 		return nil, err
 	}
