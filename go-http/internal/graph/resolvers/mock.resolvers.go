@@ -17,24 +17,30 @@ import (
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
-	genericMock, err := r.FileLoader.LoadFile(c, mockUserName)
-	delay := genericMock.MockDelay
+	genericMockInternal, err := r.FileLoader.LoadFile(c, mockUserName)
+	delay := genericMockInternal.MockDelay
 	time.Sleep(time.Millisecond * time.Duration(delay))
 	if err != nil {
 		return nil, err
 	}
-	return &genericMock, nil
+	return &model.GenericMock{
+		Data:  genericMockInternal.Data,
+		Error: genericMockInternal.Error,
+	}, nil
 }
 
 // QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
-	genericMock, err := r.FileLoader.LoadFile(c, mockUserName)
-	delay := genericMock.MockDelay
+	genericMockInternal, err := r.FileLoader.LoadFile(c, mockUserName)
+	delay := genericMockInternal.MockDelay
 	time.Sleep(time.Millisecond * time.Duration(delay))
 	if err != nil {
 		return nil, err
 	}
-	return &genericMock, nil
+	return &model.GenericMock{
+		Data:  genericMockInternal.Data,
+		Error: genericMockInternal.Error,
+	}, nil
 }
