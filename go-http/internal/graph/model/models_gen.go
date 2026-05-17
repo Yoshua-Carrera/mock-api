@@ -9,13 +9,12 @@ type Error struct {
 }
 
 type GenericMock struct {
-	Data             map[string]any   `json:"data"`
-	OrchestratedMock []map[string]any `json:"orchestratedMock,omitempty"`
-	MockStatusCode   *int32           `json:"mockStatusCode,omitempty"`
-	Error            []*Error         `json:"error,omitempty"`
-	MockDelay        int32            `json:"mockDelay"`
+	Data  map[string]any `json:"data"`
+	Error []*Error       `json:"error,omitempty"`
 }
 
-type Mutation struct{}
+type Mutation struct {
+}
 
-type Query struct{}
+type Query struct {
+}

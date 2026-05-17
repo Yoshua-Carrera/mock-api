@@ -37,11 +37,8 @@ type ComplexityRoot struct {
 	}
 
 	GenericMock struct {
-		Data             func(childComplexity int) int
-		Error            func(childComplexity int) int
-		MockDelay        func(childComplexity int) int
-		MockStatusCode   func(childComplexity int) int
-		OrchestratedMock func(childComplexity int) int
+		Data  func(childComplexity int) int
+		Error func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -101,27 +98,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.GenericMock.Error(childComplexity), true
-
-	case "GenericMock.mockDelay":
-		if e.ComplexityRoot.GenericMock.MockDelay == nil {
-			break
-		}
-
-		return e.ComplexityRoot.GenericMock.MockDelay(childComplexity), true
-
-	case "GenericMock.mockStatusCode":
-		if e.ComplexityRoot.GenericMock.MockStatusCode == nil {
-			break
-		}
-
-		return e.ComplexityRoot.GenericMock.MockStatusCode(childComplexity), true
-
-	case "GenericMock.orchestratedMock":
-		if e.ComplexityRoot.GenericMock.OrchestratedMock == nil {
-			break
-		}
-
-		return e.ComplexityRoot.GenericMock.OrchestratedMock(childComplexity), true
 
 	case "Mutation.mutateMock":
 		if e.ComplexityRoot.Mutation.MutateMock == nil {
@@ -255,14 +231,8 @@ func (ec *executionContext) childFields_GenericMock(ctx context.Context, field g
 	switch field.Name {
 	case "data":
 		return ec.fieldContext_GenericMock_data(ctx, field)
-	case "orchestratedMock":
-		return ec.fieldContext_GenericMock_orchestratedMock(ctx, field)
-	case "mockStatusCode":
-		return ec.fieldContext_GenericMock_mockStatusCode(ctx, field)
 	case "error":
 		return ec.fieldContext_GenericMock_error(ctx, field)
-	case "mockDelay":
-		return ec.fieldContext_GenericMock_mockDelay(ctx, field)
 	}
 	return nil, fmt.Errorf("no field named %q was found under type GenericMock", field.Name)
 }
