@@ -17,12 +17,15 @@ import (
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
-	genericMockInternal, err := r.FileLoader.LoadFile(c, mockUserName)
-	delay := genericMockInternal.MockDelay
-	time.Sleep(time.Millisecond * time.Duration(delay))
+	genericMockInternal, path, err := r.FileLoader.LoadFile(c, mockUserName)
 	if err != nil {
 		return nil, err
 	}
+	if len(genericMockInternal.MockOrchestration) > 0 {
+		genericMockInternal = r.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
+	}
+	delay := genericMockInternal.MockDelay
+	time.Sleep(time.Millisecond * time.Duration(delay))
 	return &model.GenericMock{
 		Data:  genericMockInternal.Data,
 		Error: genericMockInternal.Error,
@@ -33,12 +36,15 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c)
-	genericMockInternal, err := r.FileLoader.LoadFile(c, mockUserName)
-	delay := genericMockInternal.MockDelay
-	time.Sleep(time.Millisecond * time.Duration(delay))
+	genericMockInternal, path, err := r.FileLoader.LoadFile(c, mockUserName)
 	if err != nil {
 		return nil, err
 	}
+	if len(genericMockInternal.MockOrchestration) > 0 {
+		genericMockInternal = r.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
+	}
+	delay := genericMockInternal.MockDelay
+	time.Sleep(time.Millisecond * time.Duration(delay))
 	return &model.GenericMock{
 		Data:  genericMockInternal.Data,
 		Error: genericMockInternal.Error,
