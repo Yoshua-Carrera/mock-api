@@ -10,5 +10,6 @@ import "github.com/Yoshua-Carrera/mock-api/go-http/internal/service"
 // here.
 
 type Resolver struct {
-	FileLoader *service.FileLoader
+	FileLoader    *service.FileLoader
+	Orchestration *service.MockOrchestration
 }
