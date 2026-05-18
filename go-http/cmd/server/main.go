@@ -14,6 +14,7 @@ import (
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/resolvers"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/middleware"
+	"github.com/Yoshua-Carrera/mock-api/go-http/internal/service"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -26,7 +27,12 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &resolvers.Resolver{}}))
+	orchestration := service.NewMockOrchestration()
+	resolver := &resolvers.Resolver{
+		Orchestration: orchestration,
+	}
+
+	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
