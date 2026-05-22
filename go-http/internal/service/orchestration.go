@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -16,7 +15,6 @@ func NewMockOrchestration() *MockOrchestration {
 }
 
 func (o *MockOrchestration) cycleMock(p string, l int) int {
-	fmt.Println(o.State)
 	if val, ok := o.State[p]; ok {
 		if o.State[p] == l {
 			log.Printf("[warning - gql] Path %s is at max orchestration index, it will be reset.\n", p)
