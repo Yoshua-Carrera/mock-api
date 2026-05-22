@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
-	"github.com/99designs/gqlgen/graphql"
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/graph/model"
 )
 
@@ -20,29 +20,29 @@ type GenericMockInternal struct {
 
 type FileLoader struct{}
 
-func (f *FileLoader) ExtractHeaders(c *graphql.OperationContext) string {
-	mockUserName := c.Headers.Get("mockUserName")
+func (f *FileLoader) ExtractHeaders(h http.Header) string {
+	mockUserName := h.Get("mockUserName")
 	if mockUserName == "" {
 		mockUserName = "_default"
 	}
 	return mockUserName
 }
 
-func (f *FileLoader) handleLoadFileError(err error, c *graphql.OperationContext, mockUserName string, p string) (GenericMockInternal, string, error) {
+func (f *FileLoader) handleLoadFileError(err error, path string, mockUserName string, filePath string) (GenericMockInternal, string, error) {
 	if mockUserName == "_default" {
-		log.Printf("[error - gql] mock not found, please add a a mock username under '%s'.\n", p)
-		return GenericMockInternal{}, p, err
+		log.Printf("[error - gql] mock not found, please add a a mock username under '%s'.\n", filePath)
+		return GenericMockInternal{}, filePath, err
 	} else {
-		log.Printf("[warning - gql] %s not found, please add a a mock username under '%s', attempting to use _default username instead.\n", mockUserName, p)
-		return f.LoadFile(c, "_default")
+		log.Printf("[warning - gql] %s not found, please add a a mock username under '%s', attempting to use _default username instead.\n", mockUserName, filePath)
+		return f.LoadFile(path, "_default")
 	}
 }
 
-func (f *FileLoader) LoadFile(c *graphql.OperationContext, mockUserName string) (GenericMockInternal, string, error) {
-	path := fmt.Sprintf("./mock/%s/%s/%s.json", c.Operation.Operation, c.OperationName, mockUserName)
-	data, err := os.ReadFile(path)
+func (f *FileLoader) LoadFile(path string, mockUserName string) (GenericMockInternal, string, error) {
+	filePath := fmt.Sprintf("./mock/%s/%s.json", path, mockUserName)
+	data, err := os.ReadFile(filePath)
 	if err != nil {
-		return f.handleLoadFileError(err, c, mockUserName, path)
+		return f.handleLoadFileError(err, path, mockUserName, filePath)
 	}
 
 	var result GenericMockInternal

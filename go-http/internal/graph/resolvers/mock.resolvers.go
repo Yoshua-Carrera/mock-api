@@ -7,6 +7,7 @@ package resolvers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/99designs/gqlgen/graphql"
@@ -16,8 +17,8 @@ import (
 // MutateMock is the resolver for the mutateMock field.
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
-	mockUserName := r.FileLoader.ExtractHeaders(c)
-	genericMockInternal, path, err := r.FileLoader.LoadFile(c, mockUserName)
+	mockUserName := r.FileLoader.ExtractHeaders(c.Headers)
+	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
 	if err != nil {
 		return nil, err
 	}
@@ -35,8 +36,8 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 // QueryMock is the resolver for the queryMock field.
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
-	mockUserName := r.FileLoader.ExtractHeaders(c)
-	genericMockInternal, path, err := r.FileLoader.LoadFile(c, mockUserName)
+	mockUserName := r.FileLoader.ExtractHeaders(c.Headers)
+	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
 	if err != nil {
 		return nil, err
 	}
