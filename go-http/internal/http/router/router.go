@@ -10,12 +10,12 @@ import (
 	"github.com/Yoshua-Carrera/mock-api/go-http/internal/middleware"
 )
 
-func NewRouter(resolver *resolvers.Resolver) http.Handler {
+func NewRouter(graphResolver *resolvers.Resolver, restHandler *handlers.RestHandler) http.Handler {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", handlers.HandleMockRequest)
+	mux.HandleFunc("/", restHandler.HandleMockRequest)
 	mux.Handle("/gql", playground.Handler("GraphQL sandbox", "/graphql"))
-	mux.Handle("/graphql", middleware.Logging(graphUtils.BootstrapGraphqlServer(resolver)))
+	mux.Handle("/graphql", middleware.Logging(graphUtils.BootstrapGraphqlServer(graphResolver)))
 
 	return mux
 }

@@ -15,12 +15,19 @@ type genericMock struct {
 	Error []*model.Error `json:"error,omitempty"`
 }
 
-func HandleMockRequest(w http.ResponseWriter, r *http.Request) {
+type RestHandler struct {
+	fileLoader    *service.FileLoader
+	Orchestration *service.MockOrchestration
+}
+
+func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	f := service.FileLoader{}
 	path := fmt.Sprintf("%s%s", r.Method, r.URL.Path)
-	mockUserName := f.ExtractHeaders(r.Header)
-	genericMockInternal, path, err := f.LoadFile(path, mockUserName)
+	mockUserName := h.fileLoader.ExtractHeaders(r.Header)
+	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName)
+	if len(genericMockInternal.MockOrchestration) > 0 {
+		genericMockInternal = h.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
+	}
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(model.Error{
@@ -29,7 +36,11 @@ func HandleMockRequest(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	statusCode := genericMockInternal.MockErrorCode
+	if statusCode == 0 {
+		statusCode = http.StatusOK
+	}
+	w.WriteHeader(int(statusCode))
 	time.Sleep(time.Duration(genericMockInternal.MockDelay) * time.Millisecond)
 	json.NewEncoder(w).Encode(genericMock{
 		Data:  genericMockInternal.Data,
