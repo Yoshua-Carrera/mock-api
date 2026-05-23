@@ -38,17 +38,25 @@ func (f *FileLoader) handleLoadFileError(err error, path string, mockUserName st
 	}
 }
 
+func (f *FileLoader) processFile(data []byte, path string) (GenericMockInternal, string, error) {
+	var result GenericMockInternal
+	if err := json.Unmarshal(data, &result); err == nil {
+		return result, path, nil
+	}
+
+	var mockErrorCode int
+	if err := json.Unmarshal(data, &mockErrorCode); err == nil {
+		return GenericMockInternal{MockErrorCode: int32(mockErrorCode)}, path, nil
+	}
+
+	return GenericMockInternal{MockErrorCode: http.StatusInternalServerError}, path, fmt.Errorf("Invalid mock format: %s", string(data))
+}
+
 func (f *FileLoader) LoadFile(path string, mockUserName string) (GenericMockInternal, string, error) {
 	filePath := fmt.Sprintf("./mock/%s/%s.json", path, mockUserName)
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return f.handleLoadFileError(err, path, mockUserName, filePath)
 	}
-
-	var result GenericMockInternal
-	if err := json.Unmarshal(data, &result); err != nil {
-		return GenericMockInternal{}, path, err
-	}
-
-	return result, path, nil
+	return f.processFile(data, path)
 }
