@@ -46,10 +46,10 @@ func (f *FileLoader) processFile(data []byte, path string) (GenericMockInternal,
 
 	var mockErrorCode int
 	if err := json.Unmarshal(data, &mockErrorCode); err == nil {
-		return GenericMockInternal{MockErrorCode: int32(mockErrorCode)}, path, nil
+		return GenericMockInternal{Data: map[string]any{}, MockErrorCode: int32(mockErrorCode)}, path, fmt.Errorf("Invalid mock format: %s", string(data))
 	}
 
-	return GenericMockInternal{MockErrorCode: http.StatusInternalServerError}, path, fmt.Errorf("Invalid mock format: %s", string(data))
+	return GenericMockInternal{Data: map[string]any{}, MockErrorCode: http.StatusInternalServerError}, path, fmt.Errorf("Invalid mock format: %s", string(data))
 }
 
 func (f *FileLoader) LoadFile(path string, mockUserName string) (GenericMockInternal, string, error) {
