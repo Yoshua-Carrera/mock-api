@@ -20,23 +20,18 @@ type RestHandler struct {
 	Orchestration *service.MockOrchestration
 }
 
-func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	path := fmt.Sprintf("%s%s", r.Method, r.URL.Path)
-	mockUserName := h.fileLoader.ExtractHeaders(r.Header)
-	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName)
-	if len(genericMockInternal.MockOrchestration) > 0 {
-		genericMockInternal = h.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
+func (h *RestHandler) handleError(statusCode int32, genericMockInternal service.GenericMockInternal, w http.ResponseWriter) {
+	if statusCode == 0 {
+		statusCode = http.StatusNotFound
 	}
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode(model.Error{
-			Message: "mock not found",
-			Code:    http.StatusNotFound,
-		})
-		return
-	}
-	statusCode := genericMockInternal.MockErrorCode
+	w.WriteHeader(int(genericMockInternal.MockErrorCode))
+	json.NewEncoder(w).Encode(model.Error{
+		Message: "mock not found",
+		Code:    genericMockInternal.MockErrorCode,
+	})
+}
+
+func (h *RestHandler) handleSuccess(statusCode int32, genericMockInternal service.GenericMockInternal, w http.ResponseWriter) {
 	if statusCode == 0 {
 		statusCode = http.StatusOK
 	}
@@ -46,4 +41,20 @@ func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) 
 		Data:  genericMockInternal.Data,
 		Error: genericMockInternal.Error,
 	})
+}
+
+func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	path := fmt.Sprintf("%s%s", r.Method, r.URL.Path)
+	mockUserName := h.fileLoader.ExtractHeaders(r.Header)
+	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName)
+	if len(genericMockInternal.MockOrchestration) > 0 {
+		genericMockInternal = h.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
+	}
+	statusCode := genericMockInternal.MockErrorCode
+	if err != nil {
+		h.handleError(statusCode, genericMockInternal, w)
+		return
+	}
+	h.handleSuccess(statusCode, genericMockInternal, w)
 }
