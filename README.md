@@ -5,8 +5,9 @@ This repository contains multiple implementations of a file-driven mock API serv
 ## Implementations
 
 - **[Express.js (TypeScript)](./express-js)**: The primary and most feature-rich implementation. Supports dynamic REST and GraphQL mocking with orchestration and latency simulation.
+- **[Elixir (Phoenix)](./elixir-http)**: A scalable mock server implementation using Elixir and the Phoenix framework.
+- **[Go](./go-http)**: A high-performance implementation in Go, featuring REST and GraphQL support with response orchestration.
 - **[Next.js (Legacy)](./next-js)**: A deprecated implementation using Next.js. Retained for legacy support.
-- **[Go (WIP)](./go-http)**: A high-performance implementation in Go, currently under development.
 
 ## Core Concepts
 

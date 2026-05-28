@@ -4,10 +4,24 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-05-27
+
+### Added
+
+- **Elixir (Phoenix)**: New mock implementation using Elixir and the Phoenix framework, providing a scalable alternative for mocking.
+- **Go Implementation Enhancements**:
+  - Functional REST and GraphQL mock handlers.
+  - File-driven scenario selection using the `mockUserName` header.
+  - Support for response orchestration to simulate stateful sequences.
+  - Integrated `gqlgen` for schema-first GraphQL development.
+  - Added logging middleware and live reloading support with `Air`.
+  - Comprehensive documentation and examples in `go-http/README.md`.
+
 ### Changed
 
+- Improved Go implementation from a basic WIP setup to a feature-rich mock server.
 - Refined README documentation for Go and Express.js implementations.
-- Updated root README with project overview.
+- Updated root README with project overview and new implementation details.
 
 ## [1.0.0] - 2026-05-06
 
