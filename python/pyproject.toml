@@ -1,0 +1,9 @@
+[project]
+name = "python-mock-server"
+version = "0.1.0"
+description = "A multiuse mock server written in python fast api"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.136.3",
+]
