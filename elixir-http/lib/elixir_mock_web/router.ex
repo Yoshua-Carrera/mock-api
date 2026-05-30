@@ -5,12 +5,6 @@ defmodule ElixirMockWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ElixirMockWeb do
-    pipe_through :api
-    get "/health", HealthController, :index
-  end
-
-  # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:elixir_mock, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
     # it behind authentication and allow only admins to access it.
@@ -26,4 +20,11 @@ defmodule ElixirMockWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
+
+  scope "/", ElixirMockWeb do
+    pipe_through :api
+    get "/*path", MockController, :index
+  end
+
+  # Enable LiveDashboard and Swoosh mailbox preview in development
 end

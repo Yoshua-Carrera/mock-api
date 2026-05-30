@@ -1,18 +1,41 @@
-# ElixirMock
+# Mock API (Elixir/Phoenix)
+
+A scalable and high-performance mock API server implementation using **Elixir** and the **Phoenix** framework.
+
+> [!WARNING]
+> This implementation is currently **Under Development**.
+
+## Rationale
+
+- **Elixir & Phoenix**: Chosen for their exceptional concurrency model and ability to handle thousands of simultaneous connections with low latency.
+- **Scalability**: Designed to be the most scalable implementation in this repository.
+
+## Getting Started
+
+### Prerequisites
+
+- [Elixir](https://elixir-lang.org/install.html) (v1.14+)
+- [Erlang/OTP](https://www.erlang.org/) (v25+)
+
+### Installation
+
+To install dependencies:
+```bash
+mix deps.get
+```
+
+### Running the Server
 
 To start your Phoenix server:
+```bash
+mix phx.server
+```
 
-- Run `mix setup` to install and setup dependencies
-- Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+The server will be available at `http://localhost:8080`.
 
-Now you can visit [`localhost:8080`](http://localhost:8080) from your browser.
+## Features (Planned)
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-- Official website: https://www.phoenixframework.org/
-- Guides: https://hexdocs.pm/phoenix/overview.html
-- Docs: https://hexdocs.pm/phoenix
-- Forum: https://elixirforum.com/c/phoenix-forum
-- Source: https://github.com/phoenixframework/phoenix
+- **File-driven REST and GraphQL mocking**.
+- **Scenario selection** via custom headers.
+- **Response Orchestration**.
+- **Latency simulation**.

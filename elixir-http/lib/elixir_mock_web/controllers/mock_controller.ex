@@ -1,4 +1,4 @@
-defmodule ElixirMockWeb.HealthController do
+defmodule ElixirMockWeb.MockController do
   use ElixirMockWeb, :controller
 
   def index(conn, _params) do
