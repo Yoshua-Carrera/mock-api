@@ -1,4 +1,4 @@
-name: Code quality check (Express-js)
+name: Code quality check (go-http)
 on:
   pull_request:
   push:
