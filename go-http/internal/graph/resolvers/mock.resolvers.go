@@ -20,6 +20,7 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 	mockUserName := r.FileLoader.ExtractHeaders(c.Headers)
 	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
 	if err != nil {
+		fmt.Printf("[Graph - %s error] %s\n", c.Operation.Operation, err)
 		return nil, err
 	}
 	if len(genericMockInternal.MockOrchestration) > 0 {
@@ -27,6 +28,7 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 	}
 	delay := genericMockInternal.MockDelay
 	time.Sleep(time.Millisecond * time.Duration(delay))
+	fmt.Printf("[Graph - %s success] Mock found and returned for mocks/%s for user %s\n", c.Operation.Operation, path, mockUserName)
 	return &model.GenericMock{
 		Data:  genericMockInternal.Data,
 		Error: genericMockInternal.Error,
@@ -39,6 +41,7 @@ func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, erro
 	mockUserName := r.FileLoader.ExtractHeaders(c.Headers)
 	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
 	if err != nil {
+		fmt.Printf("[Graph - %s error] %s\n", c.Operation.Operation, err)
 		return nil, err
 	}
 	if len(genericMockInternal.MockOrchestration) > 0 {
@@ -46,6 +49,7 @@ func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, erro
 	}
 	delay := genericMockInternal.MockDelay
 	time.Sleep(time.Millisecond * time.Duration(delay))
+	fmt.Printf("[Graph - %s success] Mock found and returned for mocks/%s for user %s\n", c.Operation.Operation, path, mockUserName)
 	return &model.GenericMock{
 		Data:  genericMockInternal.Data,
 		Error: genericMockInternal.Error,
