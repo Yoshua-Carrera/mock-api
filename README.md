@@ -6,20 +6,31 @@ This repository contains multiple implementations of a file-driven mock API serv
 
 - **[Express.js (TypeScript)](./express-js)**: The primary and most feature-rich implementation. Supports dynamic REST and GraphQL mocking with orchestration and latency simulation.
 - **[Go](./go-http)**: A high-performance implementation in Go, featuring REST and GraphQL support with response orchestration.
-- **[Python (FastAPI)](./python)**: A modern implementation using FastAPI. (Under Development)
 - **[Elixir (Phoenix)](./elixir-http)**: A scalable mock server implementation using Elixir and the Phoenix framework. (Under Development)
+- **[Python (FastAPI)](./python)**: A modern implementation using FastAPI. (Under Development)
 - **[Next.js (Legacy)](./next-js)**: A deprecated implementation using Next.js. Retained for legacy support.
 
 ## Feature Comparison
 
-| Feature | Express.js | Go | Python | Next.js (Legacy) |
-| :--- | :---: | :---: | :---: | :---: |
-| **REST Support** | ✅ | ✅ | 🚧 | ✅ |
-| **GraphQL Support** | ✅ | ✅ | ❌ | ✅ |
-| **Selection Header** | `mockFile` | `mockUserName` | TBD | `from` |
-| **Delay Simulation** | ✅ (`mockDelay`) | ✅ (`mockDelay`) | ❌ | ❌ |
-| **Orchestration** | ✅ (`orchestratedMock`) | ✅ (`mockOrchestration`) | ❌ | ✅ |
-| **Default Fallback** | `_default.json` | `_default.json` | TBD | `_default.json` |
+| Feature | Express.js | Go | Elixir | Python | Next.js (Legacy) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **REST Support** | ✅ | ✅ | 🚧 | 🚧 | ✅ |
+| **GraphQL Support** | ✅ | ✅ | ❌ | ❌ | ✅ |
+| **Selection Header** | `mockFile` | `mockUserName` | TBD | TBD | `from` |
+| **Delay Simulation** | ✅ (`mockDelay`) | ✅ (`mockDelay`) | ❌ | ❌ | ❌ |
+| **Orchestration** | ✅ (`orchestratedMock`) | ✅ (`mockOrchestration`) | ❌ | ❌ | ✅ |
+| **Default Fallback** | `_default.json` | `_default.json` | TBD | TBD | `_default.json` |
+
+## Project Structure
+
+```text
+.
+├── elixir-http/    # Elixir (Phoenix) implementation
+├── express-js/     # Express.js (TypeScript) implementation
+├── go-http/        # Go implementation
+├── next-js/        # Next.js (Legacy) implementation
+└── python/         # Python (FastAPI) implementation
+```
 
 ## Core Concepts
 
