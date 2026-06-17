@@ -8,9 +8,6 @@ defmodule ElixirMock.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      ElixirMockWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:elixir_mock, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: ElixirMock.PubSub},
       # Start a worker by calling: ElixirMock.Worker.start_link(arg)
       # {ElixirMock.Worker, arg},
       # Start to serve requests, typically the last entry
