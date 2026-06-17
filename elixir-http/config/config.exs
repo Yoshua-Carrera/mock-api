@@ -17,18 +17,7 @@ config :elixir_mock, ElixirMockWeb.Endpoint,
   render_errors: [
     formats: [json: ElixirMockWeb.ErrorJSON],
     layout: false
-  ],
-  pubsub_server: ElixirMock.PubSub,
-  live_view: [signing_salt: "OxlZ+9WA"]
-
-# Configure the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :elixir_mock, ElixirMock.Mailer, adapter: Swoosh.Adapters.Local
+  ]
 
 # Configure Elixir's Logger
 config :logger, :default_formatter,
