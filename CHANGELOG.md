@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
   - Support for response orchestration to simulate stateful sequences.
   - Integrated `gqlgen` for schema-first GraphQL development.
   - Added logging middleware and live reloading support with `Air`.
-  - Comprehensive documentation and examples in `go-http/README.md`.
+  - Comprehensive documentation and examples in `go-http-mock/README.md`.
 
 ### Changed
 

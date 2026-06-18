@@ -12,24 +12,24 @@ This repository contains multiple implementations of a file-driven mock API serv
 
 ## Feature Comparison
 
-| Feature | Express.js | Go | Elixir | Python | Next.js (Legacy) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **REST Support** | ✅ | ✅ | 🚧 | 🚧 | ✅ |
-| **GraphQL Support** | ✅ | ✅ | ❌ | ❌ | ✅ |
-| **Selection Header** | `mockFile` | `mockUserName` | TBD | TBD | `from` |
-| **Delay Simulation** | ✅ (`mockDelay`) | ✅ (`mockDelay`) | ❌ | ❌ | ❌ |
-| **Orchestration** | ✅ (`orchestratedMock`) | ✅ (`mockOrchestration`) | ❌ | ❌ | ✅ |
-| **Default Fallback** | `_default.json` | `_default.json` | TBD | TBD | `_default.json` |
+| Feature              |       Express.js        |            Go            | Elixir | Python | Next.js (Legacy) |
+| :------------------- | :---------------------: | :----------------------: | :----: | :----: | :--------------: |
+| **REST Support**     |           ✅            |            ✅            |   🚧   |   🚧   |        ✅        |
+| **GraphQL Support**  |           ✅            |            ✅            |   ❌   |   ❌   |        ✅        |
+| **Selection Header** |       `mockFile`        |      `mockUserName`      |  TBD   |  TBD   |      `from`      |
+| **Delay Simulation** |    ✅ (`mockDelay`)     |     ✅ (`mockDelay`)     |   ❌   |   ❌   |        ❌        |
+| **Orchestration**    | ✅ (`orchestratedMock`) | ✅ (`mockOrchestration`) |   ❌   |   ❌   |        ✅        |
+| **Default Fallback** |     `_default.json`     |     `_default.json`      |  TBD   |  TBD   | `_default.json`  |
 
 ## Project Structure
 
 ```text
 .
-├── elixir-http/    # Elixir (Phoenix) implementation
-├── express-js/     # Express.js (TypeScript) implementation
-├── go-http/        # Go implementation
-├── next-js/        # Next.js (Legacy) implementation
-└── python/         # Python (FastAPI) implementation
+├── elixir-http-mock/    # Elixir (Phoenix) implementation
+├── express-http-mock/     # Express.js (TypeScript) implementation
+├── go-http-mock/        # Go implementation
+├── next-http-mock/        # Next.js (Legacy) implementation
+└── python-http-mock/         # Python (FastAPI) implementation
 ```
 
 ## Core Concepts
