@@ -1,7 +1,0 @@
-{
-  "mockDelay": 1000,
-  "data": {
-    "message": "[POST] - Hello, world"
-  },
-  "errors": []
-}
