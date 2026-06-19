@@ -13,7 +13,7 @@ jobs:
         go-version: [ '1.25.5' ]
     defaults:
       run:
-        working-directory: ./go-http
+        working-directory: ./go-http-mock
 
     steps:
       - uses: actions/checkout@v6
