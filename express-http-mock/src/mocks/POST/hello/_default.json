@@ -1,0 +1,7 @@
+{
+  "mockDelay": 1000,
+  "data": {
+    "message": "Hello, world"
+  },
+  "error": null
+}
