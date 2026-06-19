@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     defaults:
       run:
-        working-directory: ./express-js
+        working-directory: ./express-http-mock
     strategy:
       matrix:
         node-version: [20]
