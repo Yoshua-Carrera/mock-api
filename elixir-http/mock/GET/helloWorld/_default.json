@@ -1,7 +1,0 @@
-{
-  "mockDelay": 1000,
-  "data": {
-    "message": "[GET] - Hello, world"
-  },
-  "errors": []
-}
