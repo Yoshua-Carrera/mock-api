@@ -11,7 +11,8 @@ defmodule ElixirMock.Application do
       # Start a worker by calling: ElixirMock.Worker.start_link(arg)
       # {ElixirMock.Worker, arg},
       # Start to serve requests, typically the last entry
-      ElixirMockWeb.Endpoint
+      ElixirMockWeb.Endpoint,
+      ElixirMock.OrchestrationState
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
