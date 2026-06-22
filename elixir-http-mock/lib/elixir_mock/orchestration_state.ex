@@ -15,7 +15,7 @@ defmodule ElixirMock.OrchestrationState do
         state
         |> Map.get(key, -1)
         |> Kernel.+(1)
-        |> then(fn v -> if v > capacity, do: 0, else: v end)
+        |> then(fn v -> if v >= capacity, do: 0, else: v end)
 
       {next, Map.put(state, key, next)}
     end)
