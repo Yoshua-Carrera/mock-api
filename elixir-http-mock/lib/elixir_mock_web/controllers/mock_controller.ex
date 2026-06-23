@@ -1,38 +1,46 @@
 defmodule ElixirMockWeb.MockController do
   use ElixirMockWeb, :controller
   alias ElixirMockWeb.OrchestrationController, as: OC
+  alias ElixirMockWeb.FileReaderController, as: FR
 
-  @spec readFile(Plug.Conn.t(), String.t()) :: term()
-  def readFile(%Plug.Conn{} = conn, mockUserName) do
-    "mock/#{conn.method}/#{conn.path_info}/#{mockUserName}.json"
-    |> File.read!()
-    |> Jason.decode!()
+  @spec getHeader(Plug.Conn.t()) :: String.t()
+  def getHeader(%Plug.Conn{} = conn) do
+    case Plug.Conn.get_req_header(conn, "mockusername") do
+      [header_val | _] -> header_val
+      [] -> "_default"
+    end
   end
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def index(%Plug.Conn{} = conn, %{} = _params) do
     # Extract username from headers
-    mockUserName =
-      case Plug.Conn.get_req_header(conn, "mockusername") do
-        [header_val | _] -> header_val
-        [] -> "_default"
-      end
+    mockUserName = getHeader(conn)
 
     # Extract read file from mock repository
-    f = readFile(conn, mockUserName)
+    {path, f} = FR.readFile(conn, mockUserName)
 
-    # Sleep if mock delay is found
-    case Map.get(f, "mockDelay") do
-      nil -> :ok
-      delay -> Process.sleep(delay)
+    case Map.has_key?(f, "mockOrchestration") do
+      false ->
+        {mockDelay, statusCode} = FR.extractMetadata(f)
+        Process.sleep(mockDelay)
+
+        json(
+          conn |> put_status(statusCode),
+          f
+          |> FR.extractMetadata()
+        )
+
+      true ->
+        orchestratedF = OC.handleOrchestration(f, path)
+        {mockDelay, statusCode} = FR.extractMetadata(orchestratedF)
+
+        Process.sleep(mockDelay)
+
+        json(
+          conn |> put_status(statusCode),
+          orchestratedF
+          |> FR.extractMetadata()
+        )
     end
-
-    # Extract status code, default to 200 if none is found
-    statusCode = Map.get(f, "mockErrorCode", 200)
-
-    OC.handleOrchestration(f)
-
-    # Return file in the response
-    json(conn |> put_status(statusCode), f |> Map.delete("mockDelay"))
   end
 end
