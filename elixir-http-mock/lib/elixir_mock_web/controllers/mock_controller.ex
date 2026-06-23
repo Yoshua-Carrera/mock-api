@@ -21,25 +21,25 @@ defmodule ElixirMockWeb.MockController do
 
     case Map.has_key?(f, "mockOrchestration") do
       false ->
-        {mockDelay, statusCode} = FR.extractMetadata(f)
+        {mockDelay, statusCode} = f |> FR.extractMetadata()
         Process.sleep(mockDelay)
 
         json(
           conn |> put_status(statusCode),
           f
-          |> FR.extractMetadata()
+          |> FR.cleanMetadata()
         )
 
       true ->
-        orchestratedF = OC.handleOrchestration(f, path)
-        {mockDelay, statusCode} = FR.extractMetadata(orchestratedF)
+        orchestratedF = f |> OC.handleOrchestration(path)
+        {mockDelay, statusCode} = orchestratedF |> FR.extractMetadata()
 
         Process.sleep(mockDelay)
 
         json(
           conn |> put_status(statusCode),
           orchestratedF
-          |> FR.extractMetadata()
+          |> FR.cleanMetadata()
         )
     end
   end
