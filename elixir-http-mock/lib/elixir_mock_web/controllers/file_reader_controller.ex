@@ -15,12 +15,17 @@ defmodule ElixirMockWeb.FileReaderController do
   def readFile(%Plug.Conn{} = conn, mockUserName) do
     path = "mock/#{conn.method}/#{conn.path_info}/#{mockUserName}.json"
 
-    mock =
-      path
-      |> File.read!()
-      |> Jason.decode!()
+    case File.read(path) do
+      {:ok, contents} ->
+        {path, Jason.decode!(contents)}
 
-    {path, mock}
+      {:error, :enoent} ->
+        if mockUserName === "_default" do
+          {path, %{"mockErrorCode" => 404, "data" => nil, "errors" => ["Data not found"]}}
+        else
+          readFile(conn, "_default")
+        end
+    end
   end
 
   @spec extractMetadata(term()) :: term()
