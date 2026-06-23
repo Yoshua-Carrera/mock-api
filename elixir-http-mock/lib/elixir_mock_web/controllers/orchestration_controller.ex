@@ -7,8 +7,6 @@ defmodule ElixirMockWeb.OrchestrationController do
     mockCapacity = mockOrchestration |> length()
     index = OS.update_state(path, mockCapacity)
 
-    IO.inspect(index, label: "test")
-
     mockOrchestration |> Enum.at(index)
   end
 end
