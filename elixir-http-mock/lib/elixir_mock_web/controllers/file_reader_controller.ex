@@ -1,11 +1,10 @@
 defmodule ElixirMockWeb.FileReaderController do
+  alias ElixirMockWeb.LoggingController, as: LC
   @spec extractMetadata(term()) :: {non_neg_integer(), non_neg_integer()}
   def extractMetadata(f) do
-    # Sleep if mock delay is found
     mockDelay =
       f |> Map.get("mockDelay", 0)
 
-    # Extract status code, default to 200 if none is found
     statusCode = f |> Map.get("mockErrorCode", 200)
 
     {mockDelay, statusCode}
@@ -17,12 +16,30 @@ defmodule ElixirMockWeb.FileReaderController do
 
     case File.read(path) do
       {:ok, contents} ->
+        LC.writeTimedLog(
+          "[REST - success] Mock found at #{path}, using mock user name #{mockUserName}."
+        )
+
         {path, Jason.decode!(contents)}
 
       {:error, :enoent} ->
         if mockUserName === "_default" do
-          {path, %{"mockErrorCode" => 404, "data" => nil, "errors" => ["Data not found"]}}
+          LC.writeTimedLog(
+            "[REST - error] No mock found at #{path}, using mock user name #{mockUserName}, please add the file."
+          )
+
+          {path,
+           %{
+             "mockErrorCode" => 404,
+             "mockDelay" => 300,
+             "data" => nil,
+             "errors" => ["Data not found"]
+           }}
         else
+          LC.writeTimedLog(
+            "[REST - warning] No mock found at #{path}, using mock user name '_default', please add the file."
+          )
+
           readFile(conn, "_default")
         end
     end
