@@ -13,10 +13,8 @@ defmodule ElixirMockWeb.MockController do
 
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def index(%Plug.Conn{} = conn, %{} = _params) do
-    # Extract username from headers
     mockUserName = getHeader(conn)
 
-    # Extract read file from mock repository
     {path, f} = FR.readFile(conn, mockUserName)
 
     case Map.has_key?(f, "mockOrchestration") do
