@@ -3,11 +3,15 @@ defmodule ElixirMockWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :gqlapi do
+    plug :accepts, ["json"]
     plug ElixirMockWeb.Context
   end
 
   scope "/" do
-    pipe_through :api
+    pipe_through :gqlapi
 
     if Mix.env() == :dev do
       forward "/gql",
