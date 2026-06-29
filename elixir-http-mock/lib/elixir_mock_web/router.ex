@@ -3,16 +3,21 @@ defmodule ElixirMockWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug ElixirMockWeb.Context
   end
 
-  if Mix.env() == :dev do
-    forward "/gql",
-            Absinthe.Plug.GraphiQL,
-            schema: ElixirMockWeb.Schema,
-            interface: :simple
-  end
+  scope "/" do
+    pipe_through :api
 
-  forward("/graphql", Absinthe.Plug, schema: ElixirMockWeb.Schema)
+    if Mix.env() == :dev do
+      forward "/gql",
+              Absinthe.Plug.GraphiQL,
+              schema: ElixirMockWeb.Schema,
+              interface: :simple
+    end
+
+    forward("/graphql", Absinthe.Plug, schema: ElixirMockWeb.Schema)
+  end
 
   scope "/", ElixirMockWeb do
     pipe_through :api
