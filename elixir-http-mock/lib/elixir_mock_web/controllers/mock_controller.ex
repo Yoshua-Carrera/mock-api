@@ -15,7 +15,7 @@ defmodule ElixirMockWeb.MockController do
   def index(%Plug.Conn{} = conn, %{} = _params) do
     mockUserName = getHeader(conn)
 
-    {path, f} = FR.readFile(conn, mockUserName)
+    {path, f} = FR.readFile("#{conn.method}/#{conn.path_info}", mockUserName)
 
     case Map.has_key?(f, "mockOrchestration") do
       false ->

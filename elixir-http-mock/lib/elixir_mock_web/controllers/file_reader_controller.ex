@@ -10,9 +10,9 @@ defmodule ElixirMockWeb.FileReaderController do
     {mockDelay, statusCode}
   end
 
-  @spec readFile(Plug.Conn.t(), String.t()) :: {String.t(), term()}
-  def readFile(%Plug.Conn{} = conn, mockUserName) do
-    path = "mock/#{conn.method}/#{conn.path_info}/#{mockUserName}.json"
+  @spec readFile(String.t(), String.t()) :: {String.t(), term()}
+  def readFile(path, mockUserName) do
+    path = "mock/#{path}/#{mockUserName}.json"
 
     case File.read(path) do
       {:ok, contents} ->
@@ -40,7 +40,7 @@ defmodule ElixirMockWeb.FileReaderController do
             "[REST - warning] No mock found at #{path}, using mock user name '_default', please add the file."
           )
 
-          readFile(conn, "_default")
+          readFile(path, "_default")
         end
     end
   end
