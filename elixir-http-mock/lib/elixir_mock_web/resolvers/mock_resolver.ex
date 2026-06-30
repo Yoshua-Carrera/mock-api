@@ -1,13 +1,28 @@
 defmodule ElixirMockWeb.Resolvers.MockResolver do
   alias ElixirMockWeb.FileReaderController, as: FR
 
+  @spec getHeader(Plug.Conn.t()) :: String.t()
+  def getHeader(%Plug.Conn{} = conn) do
+    case Plug.Conn.get_req_header(conn, "mockusername") do
+      [header_val | _] -> header_val
+      [] -> "_default"
+    end
+  end
+
   @spec hello(any(), map(), Absinthe.Resolution.t()) ::
           {:ok, map()} | {:error, map()}
   def hello(_parent, _args, %Absinthe.Resolution{} = resolution) do
     conn = resolution.context.conn
-    IO.inspect(conn.req_headers, label: "headers")
-    IO.inspect(resolution.definition.name, label: "Operation Name")
-    IO.inspect(resolution.parent_type.identifier, label: "Operation Type")
+
+    mockUserName = getHeader(conn)
+
+    operationType = conn.body_params["operationName"]
+
+    {path, f} =
+      FR.readFile(
+        "#{resolution.parent_type.identifier}/#{operationType}",
+        mockUserName
+      )
 
     {:ok,
      %{
