@@ -1,0 +1,25 @@
+{
+  "mockOrchestration": [
+    {
+      "mockDelay": 1000,
+      "data": {
+        "message": "[mutation] - Hello, world"
+      },
+      "errors": []
+    },
+    {
+      "mockDelay": 1000,
+      "data": {
+        "message": "[mutation 2] - Hello, world"
+      },
+      "errors": []
+    },
+    {
+      "mockDelay": 1000,
+      "data": {
+        "message": "[mutation 3] - Hello, world"
+      },
+      "errors": []
+    }
+  ]
+}
