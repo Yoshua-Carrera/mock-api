@@ -1,5 +1,6 @@
 defmodule ElixirMockWeb.Resolvers.MockResolver do
   alias ElixirMockWeb.FileReaderController, as: FR
+  alias ElixirMockWeb.OrchestrationController, as: OC
 
   @spec getHeader(Plug.Conn.t()) :: String.t()
   def getHeader(%Plug.Conn{} = conn) do
@@ -9,9 +10,19 @@ defmodule ElixirMockWeb.Resolvers.MockResolver do
     end
   end
 
-  @spec hello(any(), map(), Absinthe.Resolution.t()) ::
+  defp build_error(status, path, body) do
+    {:error,
+     %{
+       message: "Mock error",
+       status: status,
+       path: path,
+       body: body
+     }}
+  end
+
+  @spec mock(any(), map(), Absinthe.Resolution.t()) ::
           {:ok, map()} | {:error, map()}
-  def hello(_parent, _args, %Absinthe.Resolution{} = resolution) do
+  def mock(_parent, _args, %Absinthe.Resolution{} = resolution) do
     conn = resolution.context.conn
 
     mockUserName = getHeader(conn)
@@ -24,16 +35,36 @@ defmodule ElixirMockWeb.Resolvers.MockResolver do
         mockUserName
       )
 
-    IO.inspect(f, label: "f")
-    IO.inspect(path, label: "path")
+    case Map.has_key?(f, "mockOrchestration") do
+      false ->
+        {mockDelay, statusCode} = f |> FR.extractMetadata()
+        Process.sleep(mockDelay)
 
-    {:ok,
-     %{
-       data: "hello world!",
-       error: [
-         %{message: "message", code: 500, field: "field"},
-         %{message: "message", code: 500, field: "field"}
-       ]
-     }}
+        if (is_integer(f) and f != 200) or statusCode != 200 do
+          build_error(f, path, "Something went wrong")
+        else
+          {:ok,
+           %{
+             data: f["data"],
+             error: f["error"]
+           }}
+        end
+
+      true ->
+        orchestratedF = f |> OC.handleOrchestration(path)
+        {mockDelay, statusCode} = orchestratedF |> FR.extractMetadata()
+
+        Process.sleep(mockDelay)
+
+        if (is_integer(f) and f != 200) or statusCode != 200 do
+          build_error(f, path, "Something went wrong")
+        else
+          {:ok,
+           %{
+             data: f["data"],
+             error: f["error"]
+           }}
+        end
+    end
   end
 end
