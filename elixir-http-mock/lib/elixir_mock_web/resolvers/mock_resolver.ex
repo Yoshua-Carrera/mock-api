@@ -24,6 +24,9 @@ defmodule ElixirMockWeb.Resolvers.MockResolver do
         mockUserName
       )
 
+    IO.inspect(f, label: "f")
+    IO.inspect(path, label: "path")
+
     {:ok,
      %{
        data: "hello world!",
