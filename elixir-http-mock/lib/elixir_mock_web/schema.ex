@@ -15,18 +15,18 @@ defmodule ElixirMockWeb.Schema do
 
   object :mock_response do
     field(:data, :json)
-    field(:error, list_of(:mock_error))
+    field(:error, list_of(:json))
   end
 
   query do
-    field :mock, :mock_response do
-      resolve(fn parent, args, resolution -> MC.hello(parent, args, resolution) end)
+    field :query_mock, :mock_response do
+      resolve(fn parent, args, resolution -> MC.mock(parent, args, resolution) end)
     end
   end
 
   mutation do
-    field :mock, :mock_response do
-      resolve(fn parent, args, resolution -> MC.hello(parent, args, resolution) end)
+    field :mutate_mock, :mock_response do
+      resolve(fn parent, args, resolution -> MC.mock(parent, args, resolution) end)
     end
   end
 end

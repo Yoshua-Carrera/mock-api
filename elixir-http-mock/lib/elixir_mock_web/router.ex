@@ -20,7 +20,9 @@ defmodule ElixirMockWeb.Router do
               interface: :simple
     end
 
-    forward("/graphql", Absinthe.Plug, schema: ElixirMockWeb.Schema)
+    forward "/graphql",
+            Absinthe.Plug,
+            schema: ElixirMockWeb.Schema
   end
 
   scope "/", ElixirMockWeb do
