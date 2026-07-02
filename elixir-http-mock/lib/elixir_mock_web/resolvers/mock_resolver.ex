@@ -30,8 +30,10 @@ defmodule ElixirMockWeb.Resolvers.MockResolver do
     {:ok,
      %{
        data: "hello world!",
-       operation_type: resolution.parent_type.identifier,
-       operation_name: resolution.definition.name
+       error: [
+         %{message: "message", code: 500, field: "field"},
+         %{message: "message", code: 500, field: "field"}
+       ]
      }}
   end
 end
