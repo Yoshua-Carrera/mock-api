@@ -12,12 +12,12 @@ defmodule ElixirMockWeb.FileReaderController do
 
   @spec readFile(String.t(), String.t()) :: {String.t(), term()}
   def readFile(path, mockUserName) do
-    path = "mock/#{path}/#{mockUserName}.json"
+    fullPath = "mock/#{path}/#{mockUserName}.json"
 
-    case File.read(path) do
+    case File.read(fullPath) do
       {:ok, contents} ->
         LC.writeTimedLog(
-          "[REST - success] Mock found at #{path}, using mock user name #{mockUserName}."
+          "[REST - success] Mock found at #{fullPath}, using mock user name #{mockUserName}."
         )
 
         {path, Jason.decode!(contents)}
@@ -25,7 +25,7 @@ defmodule ElixirMockWeb.FileReaderController do
       {:error, :enoent} ->
         if mockUserName === "_default" do
           LC.writeTimedLog(
-            "[REST - error] No mock found at #{path}, using mock user name #{mockUserName}, please add the file."
+            "[REST - error] No mock found at #{fullPath}, using mock user name #{mockUserName}, please add the file."
           )
 
           {path,
@@ -37,7 +37,7 @@ defmodule ElixirMockWeb.FileReaderController do
            }}
         else
           LC.writeTimedLog(
-            "[REST - warning] No mock found at #{path}, using mock user name '_default', please add the file."
+            "[REST - warning] No mock found at #{fullPath}, using mock user name '_default', please add the file."
           )
 
           readFile(path, "_default")
