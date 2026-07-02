@@ -7,14 +7,25 @@ defmodule ElixirMockWeb.Schema do
     parse(fn value -> {:ok, value.value} end)
   end
 
+  object :mock_error do
+    field(:message, :string)
+    field(:code, :integer)
+    field(:field, :string)
+  end
+
+  object :mock_response do
+    field(:data, :json)
+    field(:error, list_of(:mock_error))
+  end
+
   query do
-    field :query_mock, :json do
+    field :mock, :mock_response do
       resolve(fn parent, args, resolution -> MC.hello(parent, args, resolution) end)
     end
   end
 
   mutation do
-    field :mutation_mock, :json do
+    field :mock, :mock_response do
       resolve(fn parent, args, resolution -> MC.hello(parent, args, resolution) end)
     end
   end
