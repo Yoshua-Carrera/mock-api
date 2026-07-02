@@ -2,14 +2,19 @@ defmodule ElixirMockWeb.Schema do
   use Absinthe.Schema
   alias ElixirMockWeb.Resolvers.MockResolver, as: MC
 
-  object :hello_response do
-    field(:data, :string)
-    field(:operation_type, :string)
-    field(:operation_name, :string)
+  scalar :json do
+    serialize(& &1)
+    parse(fn value -> {:ok, value.value} end)
   end
 
   query do
-    field :hello, :hello_response do
+    field :query_mock, :json do
+      resolve(fn parent, args, resolution -> MC.hello(parent, args, resolution) end)
+    end
+  end
+
+  mutation do
+    field :mutation_mock, :json do
       resolve(fn parent, args, resolution -> MC.hello(parent, args, resolution) end)
     end
   end
