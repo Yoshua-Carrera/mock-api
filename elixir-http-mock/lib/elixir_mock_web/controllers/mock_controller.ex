@@ -17,10 +17,24 @@ defmodule ElixirMockWeb.MockController do
 
     {path, f} = FR.readFile("#{conn.method}/#{conn.path_info}", mockUserName)
 
+    if is_integer(f) and f != 200 do
+      json(
+        conn |> put_status(f),
+        f
+      )
+    end
+
     case Map.has_key?(f, "mockOrchestration") do
       false ->
         {mockDelay, statusCode} = f |> FR.extractMetadata()
         Process.sleep(mockDelay)
+
+        if is_integer(f) and f != 200 do
+          json(
+            conn |> put_status(f),
+            f
+          )
+        end
 
         json(
           conn |> put_status(statusCode),
@@ -30,15 +44,22 @@ defmodule ElixirMockWeb.MockController do
 
       true ->
         orchestratedF = f |> OC.handleOrchestration(path)
-        {mockDelay, statusCode} = orchestratedF |> FR.extractMetadata()
 
-        Process.sleep(mockDelay)
+        if is_integer(orchestratedF) and orchestratedF != 200 do
+          json(
+            conn |> put_status(orchestratedF),
+            orchestratedF
+          )
+        else
+          {mockDelay, statusCode} = orchestratedF |> FR.extractMetadata()
+          Process.sleep(mockDelay)
 
-        json(
-          conn |> put_status(statusCode),
-          orchestratedF
-          |> FR.cleanMetadata()
-        )
+          json(
+            conn |> put_status(statusCode),
+            orchestratedF
+            |> FR.cleanMetadata()
+          )
+        end
     end
   end
 end
