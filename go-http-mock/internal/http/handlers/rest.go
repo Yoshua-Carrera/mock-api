@@ -24,7 +24,7 @@ func (h *RestHandler) handleError(statusCode int32, genericMockInternal service.
 	if statusCode == 0 {
 		statusCode = http.StatusNotFound
 	}
-	w.WriteHeader(int(genericMockInternal.MockErrorCode))
+	w.WriteHeader(int(statusCode))
 	json.NewEncoder(w).Encode(model.Error{
 		Message: "mock not found",
 		Code:    genericMockInternal.MockErrorCode,
