@@ -3,5 +3,5 @@
   "data": {
     "message": "[query] - Hello, world"
   },
-  "errors": []
+  "error": []
 }

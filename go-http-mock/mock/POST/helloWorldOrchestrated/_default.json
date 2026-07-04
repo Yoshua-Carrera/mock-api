@@ -8,11 +8,9 @@
       "errors": []
     },
     {
+      "mockErrorCode": 403,
       "mockDelay": 1000,
-      "data": {
-        "message": "[POST 2] - Hello, world"
-      },
-      "errors": []
+      "data": null
     },
     {
       "mockDelay": 1000,
