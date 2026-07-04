@@ -7,13 +7,7 @@
       },
       "errors": []
     },
-    {
-      "mockDelay": 1000,
-      "data": {
-        "message": "[POST 2] - Hello, world"
-      },
-      "errors": []
-    },
+    500,
     {
       "mockDelay": 1000,
       "data": {
