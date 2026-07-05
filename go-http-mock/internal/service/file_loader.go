@@ -10,6 +10,10 @@ import (
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/graph/model"
 )
 
+const (
+	GraphqlEndpoint = "/graphql"
+)
+
 type GenericMockInternal struct {
 	Data              map[string]any
 	Error             []*model.Error
@@ -54,6 +58,9 @@ func (f *FileLoader) processFile(data []byte, path string) (GenericMockInternal,
 
 func (f *FileLoader) LoadFile(path string, mockUserName string, urlPath string) (GenericMockInternal, string, error) {
 	filePath := fmt.Sprintf("./mock/%s/%s.json", path, mockUserName)
+	if urlPath == GraphqlEndpoint {
+		filePath = fmt.Sprintf("./mock%s/%s/%s.json", GraphqlEndpoint, path, mockUserName)
+	}
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return f.handleLoadFileError(err, path, mockUserName, filePath, urlPath)

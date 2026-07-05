@@ -14,7 +14,7 @@ func NewRouter(graphResolver *resolvers.Resolver, restHandler *handlers.RestHand
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", restHandler.HandleMockRequest)
-	mux.Handle("/gql-playground", playground.Handler("GraphQL sandbox", "/graphql-playground"))
+	mux.Handle("/gql-playground", playground.Handler("GraphQL sandbox", "/graphql"))
 	mux.Handle("/graphql-playground", middleware.Logging(graphUtils.BootstrapGraphqlServer(graphResolver)))
 
 	return mux
