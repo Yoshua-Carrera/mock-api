@@ -47,7 +47,7 @@ func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) 
 	w.Header().Set("Content-Type", "application/json")
 	path := fmt.Sprintf("%s%s", r.Method, r.URL.Path)
 	mockUserName := h.fileLoader.ExtractHeaders(r.Header)
-	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName)
+	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName, r.URL.Path)
 	if len(genericMockInternal.MockOrchestration) > 0 {
 		genericMockInternal = h.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
 	}
