@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/config"
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/graph/model"
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/service"
 )
@@ -46,8 +47,14 @@ func (h *RestHandler) handleSuccess(statusCode int32, genericMockInternal servic
 func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	path := fmt.Sprintf("%s%s", r.Method, r.URL.Path)
+	path := fmt.Sprintf("./mock/%s/%s.json", r.Method, r.URL.Path)
+
 	mockUserName := h.fileLoader.ExtractHeaders(r.Header)
-	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName, r.URL.Path)
+	// if r.URL.Path == config.GraphqlEndpoint {
+	// 	path = fmt.Sprintf("./mock%s/%s/%s.json", config.GraphqlEndpoint, path, mockUserName)
+	// }
+
+	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName)
 	if len(genericMockInternal.MockOrchestration) > 0 {
 		genericMockInternal = h.Orchestration.HandleOrchestratedMock(genericMockInternal.MockOrchestration, path)
 	}

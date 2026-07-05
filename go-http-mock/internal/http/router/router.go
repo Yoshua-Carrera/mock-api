@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/config"
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/graph/resolvers"
 	graphUtils "github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/graph/utils"
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/http/handlers"
@@ -14,7 +15,7 @@ func NewRouter(graphResolver *resolvers.Resolver, restHandler *handlers.RestHand
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", restHandler.HandleMockRequest)
-	mux.Handle("/gql-playground", playground.Handler("GraphQL sandbox", "/graphql"))
+	mux.Handle("/gql", playground.Handler("GraphQL sandbox", config.GraphqlEndpoint))
 	mux.Handle("/graphql-playground", middleware.Logging(graphUtils.BootstrapGraphqlServer(graphResolver)))
 
 	return mux

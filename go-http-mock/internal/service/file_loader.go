@@ -10,10 +10,6 @@ import (
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/graph/model"
 )
 
-const (
-	GraphqlEndpoint = "/graphql"
-)
-
 type GenericMockInternal struct {
 	Data              map[string]any
 	Error             []*model.Error
@@ -32,13 +28,13 @@ func (f *FileLoader) ExtractHeaders(h http.Header) string {
 	return mockUserName
 }
 
-func (f *FileLoader) handleLoadFileError(err error, path string, mockUserName string, filePath string, urlPath string) (GenericMockInternal, string, error) {
+func (f *FileLoader) handleLoadFileError(err error, path string, mockUserName string, filePath string) (GenericMockInternal, string, error) {
 	if mockUserName == "_default" {
 		log.Printf("[error - gql] mock not found, please add a a mock username under '%s'.\n", filePath)
 		return GenericMockInternal{}, filePath, err
 	} else {
 		log.Printf("[warning - gql] %s not found, please add a a mock username under '%s', attempting to use _default username instead.\n", mockUserName, filePath)
-		return f.LoadFile(path, "_default", urlPath)
+		return f.LoadFile(path, "_default")
 	}
 }
 
@@ -56,14 +52,11 @@ func (f *FileLoader) processFile(data []byte, path string) (GenericMockInternal,
 	return GenericMockInternal{Data: map[string]any{}, MockErrorCode: http.StatusInternalServerError}, path, fmt.Errorf("Invalid mock format: %s", string(data))
 }
 
-func (f *FileLoader) LoadFile(path string, mockUserName string, urlPath string) (GenericMockInternal, string, error) {
+func (f *FileLoader) LoadFile(path string, mockUserName string) (GenericMockInternal, string, error) {
 	filePath := fmt.Sprintf("./mock/%s/%s.json", path, mockUserName)
-	if urlPath == GraphqlEndpoint {
-		filePath = fmt.Sprintf("./mock%s/%s/%s.json", GraphqlEndpoint, path, mockUserName)
-	}
 	data, err := os.ReadFile(filePath)
 	if err != nil {
-		return f.handleLoadFileError(err, path, mockUserName, filePath, urlPath)
+		return f.handleLoadFileError(err, path, mockUserName, filePath)
 	}
 	return f.processFile(data, path)
 }
