@@ -41,6 +41,7 @@ func (f *FileLoader) handleLoadFileError(err error, path string, mockUserName st
 func (f *FileLoader) processFile(data []byte, path string) (GenericMockInternal, string, error) {
 	var result GenericMockInternal
 	if err := json.Unmarshal(data, &result); err == nil {
+		log.Printf("[success - gql] mock found at %s.\n", path)
 		return result, path, nil
 	}
 
@@ -53,7 +54,7 @@ func (f *FileLoader) processFile(data []byte, path string) (GenericMockInternal,
 }
 
 func (f *FileLoader) LoadFile(path string, mockUserName string) (GenericMockInternal, string, error) {
-	filePath := fmt.Sprintf("./mock/%s/%s.json", path, mockUserName)
+	filePath := fmt.Sprintf("%s/%s.json", path, mockUserName)
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return f.handleLoadFileError(err, path, mockUserName, filePath)

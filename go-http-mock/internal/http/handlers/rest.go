@@ -3,7 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/Yoshua-Carrera/mock-api/go-http-mock/internal/config"
@@ -14,6 +16,12 @@ import (
 type genericMock struct {
 	Data  map[string]any `json:"data"`
 	Error []*model.Error `json:"error,omitempty"`
+}
+
+type GraphQLRequest struct {
+	OperationName string         `json:"operationName"`
+	Query         string         `json:"query"`
+	Variables     map[string]any `json:"variables"`
 }
 
 type RestHandler struct {
@@ -44,15 +52,25 @@ func (h *RestHandler) handleSuccess(statusCode int32, genericMockInternal servic
 	})
 }
 
+func (h *RestHandler) handleGraphqlRequest(r *http.Request) string {
+	defer r.Body.Close()
+	var gqlReq GraphQLRequest
+	body, _ := io.ReadAll(r.Body)
+	if err := json.Unmarshal(body, &gqlReq); err == nil {
+		gqlOperation := strings.Fields(gqlReq.Query)[0]
+		return fmt.Sprintf("./mock%s/%s/%s", config.GraphqlEndpoint, gqlOperation, gqlReq.OperationName)
+	}
+	return ""
+}
+
 func (h *RestHandler) HandleMockRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	path := fmt.Sprintf("%s%s", r.Method, r.URL.Path)
-	path := fmt.Sprintf("./mock/%s/%s.json", r.Method, r.URL.Path)
-
 	mockUserName := h.fileLoader.ExtractHeaders(r.Header)
-	// if r.URL.Path == config.GraphqlEndpoint {
-	// 	path = fmt.Sprintf("./mock%s/%s/%s.json", config.GraphqlEndpoint, path, mockUserName)
-	// }
+	path := fmt.Sprintf("./mock/%s%s", r.Method, r.URL.Path)
+
+	if r.URL.Path == config.GraphqlEndpoint {
+		path = h.handleGraphqlRequest(r)
+	}
 
 	genericMockInternal, path, err := h.fileLoader.LoadFile(path, mockUserName)
 	if len(genericMockInternal.MockOrchestration) > 0 {

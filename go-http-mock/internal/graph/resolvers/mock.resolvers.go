@@ -19,7 +19,7 @@ import (
 func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c.Headers)
-	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
+	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("./mock/%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
 	if err != nil {
 		log.Printf("[Graph - %s error] %s\n", c.Operation.Operation, err)
 		return nil, err
@@ -40,7 +40,7 @@ func (r *mutationResolver) MutateMock(ctx context.Context) (*model.GenericMock, 
 func (r *queryResolver) QueryMock(ctx context.Context) (*model.GenericMock, error) {
 	c := graphql.GetOperationContext(ctx)
 	mockUserName := r.FileLoader.ExtractHeaders(c.Headers)
-	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
+	genericMockInternal, path, err := r.FileLoader.LoadFile(fmt.Sprintf("./mock/%s/%s", c.Operation.Operation, c.OperationName), mockUserName)
 	if err != nil {
 		log.Printf("[Graph - %s error] %s\n", c.Operation.Operation, err)
 		return nil, err
