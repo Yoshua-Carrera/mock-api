@@ -11,16 +11,24 @@ defmodule ElixirMockWeb.MockController do
     end
   end
 
-  @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def index(%Plug.Conn{} = conn, %{} = _params) do
-    mockUserName = getHeader(conn)
+  def getGraphqlFile(%Plug.Conn{} = conn, mockUserName) do
+    mutationBody = conn.body_params["mutation"]
+    queryBody = conn.body_params["query"]
 
-    if "#{conn.path_info}" == "graphql" do
-      # TODO: Add graphql handler
+    if mutationBody != nil do
+      [_, operation_name] =
+        Regex.run(~r/mutation\s+(\w+)/, mutationBody)
+
+      FR.readFile("graphql/mutation/#{operation_name}", mockUserName)
+    else
+      [_, operation_name] =
+        Regex.run(~r/query\s+(\w+)/, queryBody)
+
+      FR.readFile("graphql/query/#{operation_name}", mockUserName)
     end
+  end
 
-    {path, f} = FR.readFile("#{conn.method}/#{conn.path_info}", mockUserName)
-
+  def handleMock(conn, f, path) do
     if is_integer(f) and f != 200 do
       json(
         conn |> put_status(f),
@@ -64,6 +72,19 @@ defmodule ElixirMockWeb.MockController do
             |> FR.cleanMetadata()
           )
         end
+    end
+  end
+
+  @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
+  def index(%Plug.Conn{} = conn, %{} = _params) do
+    mockUserName = getHeader(conn)
+
+    if "#{conn.path_info}" == "graphql" do
+      {path, f} = getGraphqlFile(conn, mockUserName)
+      handleMock(conn, f, path)
+    else
+      {path, f} = FR.readFile("#{conn.method}/#{conn.path_info}", mockUserName)
+      handleMock(conn, f, path)
     end
   end
 end
