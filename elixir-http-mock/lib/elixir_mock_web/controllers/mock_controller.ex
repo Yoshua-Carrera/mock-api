@@ -15,6 +15,10 @@ defmodule ElixirMockWeb.MockController do
   def index(%Plug.Conn{} = conn, %{} = _params) do
     mockUserName = getHeader(conn)
 
+    if "#{conn.path_info}" == "graphql" do
+      # TODO: Add graphql handler
+    end
+
     {path, f} = FR.readFile("#{conn.method}/#{conn.path_info}", mockUserName)
 
     if is_integer(f) and f != 200 do
