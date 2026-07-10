@@ -14,7 +14,7 @@ defmodule ElixirMockWeb.Router do
     pipe_through :gqlapi
 
     if Mix.env() == :dev do
-      forward "/gql",
+      forward "/gql-sandbox",
               Absinthe.Plug.GraphiQL,
               schema: ElixirMockWeb.Schema,
               interface: :simple
