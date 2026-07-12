@@ -11,7 +11,7 @@ export const handleSuccessResponse = (p: {
 }) => {
   let orchestratedResponse: GenericMock | null = null
   console.info(
-    `[success - ${p.req.method} Mock found and returned for "${p.mockFileName ?? '_default'}" at ./mocks/${p.req.method}/${p.req.path}/${p.mockFileName ?? '_default'}.json`,
+    `[success - ${p.req.method}] Mock found and returned for "${p.mockFileName ?? '_default'}" at ./mocks/${p.req.method}/${p.req.path}/${p.mockFileName ?? '_default'}.json`,
   )
   if (
     typeof p.staticResponse === 'object' &&
