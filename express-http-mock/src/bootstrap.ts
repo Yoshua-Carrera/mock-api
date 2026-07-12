@@ -17,7 +17,7 @@ export async function bootstrap() {
     }),
   )
 
-  gqlServer.applyMiddleware({ app, path: '/graphql' })
+  gqlServer.applyMiddleware({ app, path: '/graphql-sandbox' })
 
   app.all(/(.*)/, restHandler)
 
