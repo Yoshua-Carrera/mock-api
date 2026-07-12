@@ -5,7 +5,7 @@ import { GenericMock } from '../models/response.models'
 
 export const restHandler = async (req: e.Request, res: e.Response) => {
   if (req.body.operationName === 'IntrospectionQuery') return
-  const mockFileName = req.headers['mockFile'] as string
+  const mockFileName = req.headers['mockUserName'] as string
   const route =
     req.path === '/graphql'
       ? `../../mocks/graphql/${req.body.query ? 'query' : 'mutation'}/${req.body.operationName}`
