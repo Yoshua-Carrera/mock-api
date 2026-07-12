@@ -4,9 +4,14 @@ import { handleSuccessResponse } from '../utils/rest/rest.handler'
 import { GenericMock } from '../models/response.models'
 
 export const restHandler = async (req: e.Request, res: e.Response) => {
+  if (req.body.operationName === 'IntrospectionQuery') return
   const mockFileName = req.headers['mockFile'] as string
+  const route =
+    req.path === '/graphql'
+      ? `../../mocks/graphql/${req.body.query ? 'query' : 'mutation'}/${req.body.operationName}`
+      : `../../mocks/${req.method}${req.path}`
   const result = await processRequest({
-    route: `../../mocks/${req.method}${req.path}`,
+    route,
     mockFileName,
     method: req.method,
   })
@@ -17,7 +22,7 @@ export const restHandler = async (req: e.Request, res: e.Response) => {
 
   if (result.errorCode) {
     console.warn(
-      `[warning - ${req.method}] Mock not found for mock username "${mockFileName ?? 'default'}, please add the mock at ./mocks/${req.method}/${req.path}/${mockFileName ?? 'default'}.json`,
+      `[warning - ${req.method}] Mock not found for mock username "${mockFileName ?? 'default'}, please add the mock at ${route}/${mockFileName ?? 'default'}.json`,
     )
     res.sendStatus(result.errorCode)
   } else {
