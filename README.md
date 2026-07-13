@@ -13,7 +13,6 @@ Each mock server is self-contained in its own directory, sharing a common folder
 ├── elixir-http-mock/   # Elixir (Phoenix & Absinthe) implementation
 ├── express-http-mock/  # Express.js (TypeScript) implementation [Primary]
 ├── go-http-mock/       # Go implementation [High-Performance]
-├── next-http-mock/     # Next.js implementation [Legacy]
 ├── python-http-mock/   # Python (FastAPI) implementation [Work in Progress]
 └── rust-http-mock/     # Rust implementation [Work in Progress]
 ```
@@ -22,14 +21,14 @@ Each mock server is self-contained in its own directory, sharing a common folder
 
 ## 📊 Feature Comparison
 
-| Feature              |       Express.js        |            Go            |          Elixir          | Python | Next.js (Legacy) |
-| :------------------- | :---------------------: | :----------------------: | :----------------------: | :----: | :--------------: |
-| **REST Support**     |           ✅            |            ✅            |            ✅            |   🚧   |        ✅        |
-| **GraphQL Support**  |           ✅            |            ✅            |            ✅            |   ❌   |        ✅        |
-| **Selection Header** |       `mockFile`        |      `mockUserName`      |      `mockUserName`      |  TBD   |      `from`      |
-| **Delay Simulation** |    ✅ (`mockDelay`)     |     ✅ (`mockDelay`)     |     ✅ (`mockDelay`)     |   ❌   |        ❌        |
-| **Orchestration**    | ✅ (`orchestratedMock`) | ✅ (`mockOrchestration`) | ✅ (`mockOrchestration`) |   ❌   |        ✅        |
-| **Default Fallback** |     `_default.json`     |     `_default.json`      |     `_default.json`      |  TBD   | `_default.json`  |
+| Feature              |       Express.js        |            Go            |          Elixir          | Python |
+| :------------------- | :---------------------: | :----------------------: | :----------------------: | :----: |
+| **REST Support**     |           ✅            |            ✅            |            ✅            |   🚧   |
+| **GraphQL Support**  |           ✅            |            ✅            |            ✅            |   ❌   |
+| **Selection Header** |     `mockUserName`      |      `mockUserName`      |      `mockUserName`      |  TBD   |
+| **Delay Simulation** |    ✅ (`mockDelay`)     |     ✅ (`mockDelay`)     |     ✅ (`mockDelay`)     |   ❌   |
+| **Orchestration**    | ✅ (`orchestratedMock`) | ✅ (`mockOrchestration`) | ✅ (`mockOrchestration`) |   ❌   |
+| **Default Fallback** |     `_default.json`     |     `_default.json`      |     `_default.json`      |  TBD   |
 
 ---
 
