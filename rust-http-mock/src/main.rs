@@ -3,9 +3,9 @@ use std::u16;
 use tracing::info;
 
 use axum::{
-    routing::{get, post},
-    http::StatusCode,
     Json, Router,
+    http::StatusCode,
+    routing::{get, post},
 };
 use serde::{Deserialize, Serialize};
 
@@ -19,23 +19,22 @@ async fn main() {
         .route("/", get(root))
         .route("/users", post(create_user));
 
-    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", PORT)).await.unwrap();
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", PORT))
+        .await
+        .unwrap();
 
     info!("Server started, listening on port {}", PORT);
 
     axum::serve(listener, app).await.unwrap();
 
     info!("Server stopped");
-
 }
 
 async fn root() -> &'static str {
     "Hello, World!"
 }
 
-async fn create_user(
-    Json(payload): Json<CreateUser>,
-) -> (StatusCode, Json<User>) {
+async fn create_user(Json(payload): Json<CreateUser>) -> (StatusCode, Json<User>) {
     let user = User {
         id: 1337,
         username: payload.username,
