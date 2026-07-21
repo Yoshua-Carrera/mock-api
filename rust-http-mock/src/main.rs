@@ -1,3 +1,7 @@
+mod handlers;
+
+use handlers::rest::handle_rest_request;
+
 use std::u16;
 
 use tracing::info;
@@ -5,7 +9,7 @@ use tracing::info;
 use axum::{
     Json, Router,
     http::StatusCode,
-    routing::{get, post},
+    routing::{any, get, post},
 };
 use serde::{Deserialize, Serialize};
 
@@ -17,7 +21,8 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(root))
-        .route("/users", post(create_user));
+        .route("/users", post(create_user))
+        .route("/{*mockPath}", any(handle_rest_request));
 
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", PORT))
         .await
