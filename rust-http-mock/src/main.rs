@@ -2,8 +2,6 @@ mod handlers;
 
 use handlers::rest::handle_rest_request;
 
-use std::u16;
-
 use tracing::info;
 
 use axum::{

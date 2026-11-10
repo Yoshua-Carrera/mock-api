@@ -1,20 +1,14 @@
-use axum::{Json, http::StatusCode};
-use serde::Serialize;
+use axum::{Json, extract::Path, http::StatusCode};
+use serde_json::{Value, json};
 use tracing::info;
 
-#[derive(Serialize)]
-pub struct User {
-    id: u64,
-    username: String,
-}
-
-pub async fn handle_rest_request() -> (StatusCode, Json<User>) {
+pub async fn handle_rest_request(Path(path): Path<String>) -> (StatusCode, Json<Value>) {
     info!("Hello World");
+    info!("{}", path);
 
-    let user = User {
-        id: 1337,
-        username: "username".to_string(),
-    };
+    let path = format!("mock/{}", path);
 
-    (StatusCode::CREATED, Json(user))
+    let mock = json!({ "path": path });
+
+    (StatusCode::CREATED, Json(mock))
 }
